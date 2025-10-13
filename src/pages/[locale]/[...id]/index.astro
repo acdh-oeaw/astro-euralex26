@@ -32,8 +32,9 @@ const { default: Content } = await page.compile(content);
 <PageLayout locale={locale} title={documentTitle}>
 	<MainContent>
 		<PageSection>
-			<PageTitle>{title}</PageTitle>
-			<div class="prose prose-sm">
+			<PageTitle class="text-6xl text-east-bay-700">{title}</PageTitle>
+			<hr class="mb-2 border-solid border-black" />
+			<div class="prose">
 				<Content />
 			</div>
 		</PageSection>

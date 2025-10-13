@@ -38,7 +38,16 @@ export default defineConfig({
 		icon({
 			/** @see https://www.astroicon.dev/reference/configuration/#include */
 			include: {
-				lucide: ["chevron-down", "menu", "message-circle", "search", "square-arrow-left", "x"],
+				lucide: [
+					"chevron-down",
+					"menu",
+					"message-circle",
+					"search",
+					"square-arrow-left",
+					"x",
+					"twitter",
+					"mail",
+				],
 				simpleIcons: [],
 			},
 			svgoOptions: {

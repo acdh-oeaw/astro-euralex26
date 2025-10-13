@@ -40,6 +40,8 @@ export default config({
 				...locales.map((locale) => withI18nPrefix(locale, "indexPage")),
 				"---",
 				...locales.map((locale) => withI18nPrefix(locale, "pages")),
+				...locales.map((locale) => withI18nPrefix(locale, "keynotes")),
+				...locales.map((locale) => withI18nPrefix(locale, "days")),
 			],
 			settings: [
 				...locales.map((locale) => withI18nPrefix(locale, "metadata")),

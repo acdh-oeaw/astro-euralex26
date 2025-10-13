@@ -1,6 +1,7 @@
 import { fields, singleton } from "@keystatic/core";
 
 import { createAssetPaths } from "@/lib/content/create-asset-paths";
+import { createComponents, headingLevels } from "@/lib/content/create-components.tsx";
 import { createSingletonPaths } from "@/lib/content/create-paths";
 // import { createPreviewUrl } from "@/lib/content/create-preview-url";
 import { createSingleton } from "@/lib/content/create-singleton";
@@ -38,6 +39,14 @@ const indexPage = createSingleton((locale) => {
 					label: "Hero section",
 				},
 			),
+			content: fields.mdx({
+				label: "Content",
+				options: {
+					heading: headingLevels,
+					image: createAssetPaths(assetPath),
+				},
+				components: createComponents(assetPath, locale),
+			}),
 			main: fields.object(
 				{
 					sections: fields.blocks(

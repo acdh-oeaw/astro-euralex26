@@ -1,12 +1,11 @@
 ---
 import { Image } from "astro:assets";
+import logoLight from "public/EURALEX_Logo_2026_openbook_nightlight_whitefont.png";
 
 import MainContent from "@/components/main-content.astro";
-import PageSection from "@/components/page-section.astro";
-import PageTitle from "@/components/page-title.astro";
 import { locales } from "@/config/i18n.config";
 import PageLayout from "@/layouts/page-layout.astro";
-import { createSingletonResource } from "@/lib/content/create-resource";
+import { createCollectionResource, createSingletonResource } from "@/lib/content/create-resource";
 import { getImageImport } from "@/lib/get-image-import";
 import { createI18n } from "@/lib/i18n";
 
@@ -14,30 +13,155 @@ export function getStaticPaths() {
 	return Promise.all(
 		locales.map(async (locale) => {
 			const page = await createSingletonResource("indexPage", locale).read();
+			const pages = await createCollectionResource("pages", locale).all();
+			const callForPapers = pages.find((p) => p.id === "call-for-papers");
 
-			return { params: { locale }, props: { page } };
+			const keynotes = await createCollectionResource("keynotes", locale).all();
+			const programme = await createCollectionResource("days", locale).all();
+
+			return { params: { locale }, props: { page, callForPapers, keynotes, programme } };
 		}),
 	);
 }
 
 const { locale } = Astro.params;
 
-const { page } = Astro.props;
+const { page, callForPapers, keynotes, programme } = Astro.props;
 
 const { t } = await createI18n(locale);
 
 const documentTitle = t("IndexPage.meta.title");
-const { hero } = page.data;
+const { hero, content } = page.data;
+const { default: Content } = await page.compile(content);
+
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+const { title, summary, image } = callForPapers!.data;
 ---
 
 <PageLayout locale={locale} title={documentTitle}>
 	<MainContent>
-		<PageSection>
-			<div>
-				<Image alt="" fetchpriority="high" loading="eager" src={getImageImport(hero.image)} />
-				<PageTitle>{hero.title}</PageTitle>
-				<p>{hero.lead}</p>
+		<section class="relative place-items-center xs:py-32">
+			{
+				hero.image ? (
+					<Image
+						alt=""
+						class="absolute inset-0 -z-10 size-full object-cover brightness-75"
+						decoding="auto"
+						fetchpriority="high"
+						loading="eager"
+						src={getImageImport(hero.image)}
+					/>
+				) : null
+			}
+			<Image
+				class="relative z-30 block h-auto w-1/6"
+				alt=""
+				decoding="auto"
+				fetchpriority="high"
+				src={logoLight}
+			/>
+			<div class="relative grid place-items-center gap-y-10 py-20 text-white">
+				<h1 class="text-5xl leading-tight">{hero.title}</h1>
+				<p class="text-8xl font-extrabold uppercase">{hero.lead}</p>
+				<p class="text-5xl uppercase">29.9. – 3.10.2026, Vienna</p>
 			</div>
-		</PageSection>
+		</section>
+		<section class="container relative mx-auto grid max-w-screen-lg gap-y-8 px-4 py-12 xs:px-8">
+			<div class="prose">
+				<Content />
+			</div>
+		</section>
+		<section class="relative w-full bg-periwinkle-200 py-12">
+			<div
+				class="mx-auto grid max-w-screen-lg grid-cols-1 items-center gap-20 gap-y-8 px-4 xs:px-8 md:grid-cols-2"
+			>
+				{
+					image ? (
+						<Image
+							alt=""
+							decoding="auto"
+							fetchpriority="high"
+							loading="eager"
+							src={getImageImport(image)}
+							class="h-full rounded-2xl"
+						/>
+					) : null
+				}
+				<div>
+					<h1 class="text-7xl font-extrabold uppercase leading-tight [word-spacing:50rem]">
+						{title}
+					</h1>
+					<div class="prose font-bold">
+						{summary}
+					</div>
+					<a
+						class="mt-6 inline-block rounded-3xl border-2 border-black px-4 py-2 text-center font-semibold text-black"
+						href={`/${locale.toString()}/call-for-papers`}
+					>
+						Learn More
+					</a>
+				</div>
+			</div>
+		</section>
+		<section class="relative w-full py-12">
+			<div class="mx-auto mb-12 flex max-w-screen-lg justify-center px-4 xs:px-8">
+				<h1
+					class="text-center text-7xl font-extrabold uppercase leading-tight [word-spacing:50rem]"
+				>
+					KEYNOTES
+				</h1>
+			</div>
+			<div class="container mx-auto max-w-screen-lg px-4 xs:px-8">
+				<div class="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
+					{
+						keynotes.map((keynote) => (
+							<div class="flex flex-col items-center rounded-xl bg-white p-4 shadow">
+								{keynote.data.image.src && (
+									<Image
+										src={getImageImport(keynote.data.image.src)}
+										alt={keynote.data.title}
+										class="mb-4 h-48 w-full rounded-lg object-cover"
+										decoding="auto"
+										loading="lazy"
+									/>
+								)}
+								<h2 class="text-center text-xl font-bold">{keynote.data.title}</h2>
+								<p class="mt-2 text-center">{keynote.data.speaker}</p>
+							</div>
+						))
+					}
+				</div>
+			</div>
+		</section>
+		<section class="relative w-full bg-periwinkle-200 py-12">
+			<div class="mx-auto mb-12 flex max-w-screen-lg justify-center px-4 xs:px-8">
+				<h1
+					class="text-center text-7xl font-extrabold uppercase leading-tight [word-spacing:50rem]"
+				>
+					Programme
+				</h1>
+			</div>
+			<div class="container mx-auto max-w-screen-lg px-4 xs:px-8">
+				<div class="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
+					{
+						programme.map((keynote) => (
+							<div class="flex flex-col items-center rounded-xl bg-white p-4 shadow">
+								{keynote.data.image.src && (
+									<Image
+										src={getImageImport(keynote.data.image.src)}
+										alt={keynote.data.title}
+										class="mb-4 h-48 w-full rounded-lg object-cover"
+										decoding="auto"
+										loading="lazy"
+									/>
+								)}
+								<h2 class="text-center text-xl font-bold">{keynote.data.title}</h2>
+								<p class="mt-2 text-center">{keynote.data.date}</p>
+							</div>
+						))
+					}
+				</div>
+			</div>
+		</section>
 	</MainContent>
 </PageLayout>

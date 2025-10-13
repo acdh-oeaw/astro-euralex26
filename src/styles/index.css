@@ -1,6 +1,6 @@
 :root {
-	--font-body: "Inter Variable";
-	--font-heading: "Inter Variable";
+	--font-body: "Red Hat Display";
+	--font-heading: "Red Hat Display";
 	--color-bg: theme("colors.neutral.0");
 	--color-fg: theme("colors.neutral.950");
 	--color-positive: theme("colors.green.600");

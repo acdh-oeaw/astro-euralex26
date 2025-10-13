@@ -38,6 +38,9 @@ importers:
       '@fontsource-variable/inter':
         specifier: ^5.0.20
         version: 5.0.20
+      '@fontsource/red-hat-display':
+        specifier: 5.2.8
+        version: 5.2.8
       '@iconify-json/lucide':
         specifier: ^1.1.208
         version: 1.1.208
@@ -820,6 +823,9 @@ packages:
 
   '@fontsource-variable/inter@5.0.20':
     resolution: {integrity: sha512-dhzG4Zls/tIrf8h0FhTNi8jT/uFwNhdTY2vKe6DYqoXDYOfEcTVZDyh1hKml1rlLT44Y7OoKoGz8w7czDW7twQ==}
+
+  '@fontsource/red-hat-display@5.2.8':
+    resolution: {integrity: sha512-nvM6ckA1ZbTNV2eguVbiPwCD68dDddmEGsS4T3zlCw1hBU+idpuEz1FQe0qmlufntyV8PxgCL588GMYXmCNbcQ==}
 
   '@formatjs/ecma402-abstract@2.0.0':
     resolution: {integrity: sha512-rRqXOqdFmk7RYvj4khklyqzcfQl9vEL/usogncBHRZfZBDOwMGuSRNFl02fu5KGHXdbinju+YXyuR+Nk8xlr/g==}
@@ -6212,6 +6218,8 @@ snapshots:
   '@floating-ui/utils@0.2.7': {}
 
   '@fontsource-variable/inter@5.0.20': {}
+
+  '@fontsource/red-hat-display@5.2.8': {}
 
   '@formatjs/ecma402-abstract@2.0.0':
     dependencies:

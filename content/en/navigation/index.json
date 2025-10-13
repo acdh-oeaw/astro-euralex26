@@ -1,10 +1,63 @@
 {
   "links": [
     {
-      "discriminant": "page",
+      "discriminant": "menu",
       "value": {
-        "label": "Demo",
-        "id": "kitchen-sink"
+        "label": "Event Info",
+        "links": [
+          {
+            "discriminant": "page",
+            "value": {
+              "label": "programme",
+              "id": "kitchen-sink"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "discriminant": "menu",
+      "value": {
+        "label": "Registration",
+        "links": [
+          {
+            "discriminant": "page",
+            "value": {
+              "label": "Call for Papers",
+              "id": "call-for-papers"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "discriminant": "menu",
+      "value": {
+        "label": "Programme",
+        "links": [
+          {
+            "discriminant": "page",
+            "value": {
+              "label": "Day 1",
+              "id": "kitchen-sink"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "discriminant": "menu",
+      "value": {
+        "label": "Organisation",
+        "links": [
+          {
+            "discriminant": "page",
+            "value": {
+              "label": "Org",
+              "id": "kitchen-sink"
+            }
+          }
+        ]
       }
     }
   ]

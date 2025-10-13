@@ -1,4 +1,10 @@
 ---
+import { Image } from "astro:assets";
+import { Icon } from "astro-icon/components";
+import acdhlogo from "public/acdh_logo_with_text_color.png";
+import logoLight from "public/EURALEX_Logo_2026_openbook_nightlight_blackfont.png";
+import euralexlogo from "public/EURALEX_logo_original.jpg";
+
 import Link from "@/components/link.astro";
 import type { Locale } from "@/config/i18n.config";
 import { createI18n } from "@/lib/i18n";
@@ -8,8 +14,66 @@ const { t } = await createI18n(Astro.currentLocale as Locale | undefined);
 const imprint = t("WebsiteFooter.links.imprint");
 ---
 
-<footer class="border-t">
-	<div class="mx-auto flex w-full max-w-screen-lg items-center justify-between px-4 py-6 text-sm">
+<footer class="border-t bg-periwinkle-200">
+	<div class="bg-white">
+		<div class="mx-auto grid w-full max-w-screen-lg gap-y-6 px-4 py-12 text-[#444]">
+			<div class="grid items-start gap-x-8 gap-y-6 md:grid-cols-2">
+				<div class="grid gap-y-2">
+					<div class="text-xl font-bold">Contact</div>
+					<dl class="grid gap-y-2">
+						<div class="inline-flex items-center gap-x-2">
+							<dt>
+								<span class="sr-only">Email:</span>
+								<Icon aria-hidden="true" class="text-xl text-east-bay-700" name="lucide:mail" />
+							</dt>
+							<dd>
+								<a
+									class="underline decoration-dotted underline-offset-4 hover:no-underline"
+									href="mailto:euralex26@oeaw.ac.at"
+								>
+									euralex26@oeaw.ac.at
+								</a>
+							</dd>
+						</div>
+						<div class="inline-flex items-center gap-x-2">
+							<dt>
+								<span class="sr-only">Twitter:</span>
+								<Icon aria-hidden="true" class="text-xl text-east-bay-700" name="lucide:twitter" />
+							</dt>
+							<dd>
+								<a
+									class="underline decoration-dotted underline-offset-4 hover:no-underline"
+									href="https://twitter.com/Euralex26"
+								>
+									@Euralex26
+								</a>
+							</dd>
+						</div>
+					</dl>
+				</div>
+
+				<div class="grid gap-y-2">
+					<div class="text-xl font-bold">Funded By</div>
+					<div class="flex items-center gap-6">
+						<a
+							class="underline decoration-dotted underline-offset-4 hover:no-underline"
+							href="https://www.oeaw.ac.at/acdh/"
+						>
+							<Image alt="" class="block h-10 w-auto" loading="lazy" src={euralexlogo} />
+						</a>
+						<Image alt="" class="block h-10 w-auto" loading="lazy" src={logoLight} />
+						<a
+							class="underline decoration-dotted underline-offset-4 hover:no-underline"
+							href="https://www.oeaw.ac.at/acdh/"
+						>
+							<Image alt="" class="block h-10 w-auto" loading="lazy" src={acdhlogo} />
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="mx-auto flex w-full max-w-screen-lg items-center justify-between px-4 py-2 text-sm">
 		<div>
 			<Link
 				class="underline decoration-dotted underline-offset-4 hover:no-underline"
@@ -25,7 +89,7 @@ const imprint = t("WebsiteFooter.links.imprint");
 				class="underline decoration-dotted underline-offset-4 hover:no-underline"
 				href="https://www.oeaw.ac.at/acdh"
 			>
-				ACDH-CH
+				ACDH
 			</a>
 			|
 			<Link
