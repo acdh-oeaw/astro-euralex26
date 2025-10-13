@@ -16,7 +16,7 @@ USER node
 COPY --chown=node:node .npmrc package.json pnpm-lock.yaml ./
 
 RUN pnpm fetch --prod
-RUN pnpm install --frozen-lockfile --ignore-scripts --offline --prod
+RUN pnpm install --frozen-lockfile --ignore-scripts --prod
 
 # build
 FROM base as build
@@ -43,7 +43,7 @@ ARG PUBLIC_REDMINE_ID
 # disable validation for runtime environment variables
 ENV ENV_VALIDATION=public
 
-RUN pnpm install --frozen-lockfile --offline
+RUN pnpm install --frozen-lockfile
 
 ENV NODE_ENV=production
 
