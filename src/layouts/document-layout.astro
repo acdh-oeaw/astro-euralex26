@@ -12,7 +12,6 @@ import type { WebSite, WithContext } from "schema-dts";
 import Analytics from "@/components/analytics.astro";
 import { env } from "@/config/env.config";
 import { defaultLocale, type Locale, locales } from "@/config/i18n.config";
-import { createColorSchemeScript } from "@/lib/color-scheme";
 import { getUnprefixedPathname } from "@/lib/get-unprefixed-pathname";
 import { createI18n } from "@/lib/i18n";
 import { safeJsonLdReplacer } from "@/lib/safe-json-ld-replacer";
@@ -113,10 +112,7 @@ const googleSiteVerification = env.PUBLIC_GOOGLE_SITE_VERIFICATION;
 
 		<ViewTransitions />
 
-		<script
-			is:inline
-			set:html={`(${String(createColorSchemeScript)})("uiColorScheme", "ui-color-scheme");`}
-		/>
+		<script is:inline></script>
 
 		<script
 			is:inline
