@@ -31,10 +31,18 @@
       }
     },
     {
-      "discriminant": "page",
+      "discriminant": "menu",
       "value": {
-        "label": "Programme",
-        "id": "kitchen-sink"
+        "label": "Programm",
+        "links": [
+          {
+            "discriminant": "link",
+            "value": {
+              "label": "Keynotes",
+              "href": "/keynotes"
+            }
+          }
+        ]
       }
     },
     {

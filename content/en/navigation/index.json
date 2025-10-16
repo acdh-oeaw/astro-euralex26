@@ -41,6 +41,13 @@
               "label": "Day 1",
               "id": "kitchen-sink"
             }
+          },
+          {
+            "discriminant": "link",
+            "value": {
+              "label": "Keynotes",
+              "href": "/keynotes"
+            }
           }
         ]
       }
