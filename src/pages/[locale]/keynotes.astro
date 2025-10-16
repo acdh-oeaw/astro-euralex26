@@ -1,0 +1,140 @@
+---
+import { Image } from "astro:assets";
+
+import MainContent from "@/components/main-content.astro";
+import PageSection from "@/components/page-section.astro";
+import PageTitle from "@/components/page-title.astro";
+import { locales } from "@/config/i18n.config";
+import PageLayout from "@/layouts/page-layout.astro";
+import { createCollectionResource } from "@/lib/content/create-resource";
+import { getImageImport } from "@/lib/get-image-import";
+import { createI18n } from "@/lib/i18n";
+
+export function getStaticPaths() {
+	return Promise.all(
+		locales.map(async (locale) => {
+			const keynotes = await createCollectionResource("keynotes", locale).all();
+
+			return { params: { locale }, props: { keynotes } };
+		}),
+	);
+}
+
+const { locale } = Astro.params;
+const { keynotes } = Astro.props;
+
+const { t } = await createI18n(locale);
+const dateTimeFormatter = new Intl.DateTimeFormat(locale, {
+	dateStyle: "long",
+	timeStyle: "short",
+});
+
+const documentTitle = t("KeynotesPage.meta.title");
+const pageTitle = t("KeynotesPage.title");
+
+const keynoteSections = await Promise.all(
+	keynotes
+		.slice()
+		.sort((a, b) => new Date(a.data.date).getTime() - new Date(b.data.date).getTime())
+		.map(async (keynote) => {
+			const { data } = keynote;
+			const imageSrc = data.image?.src;
+			const speakerBio = data.speakerBio;
+			const speaker = data.speaker;
+
+			const abstractField = data.abstract;
+			const Abstract = abstractField ? (await keynote.compile(abstractField)).default : null;
+
+			return {
+				id: keynote.id,
+				title: data.title,
+				subtitle: data.subtitle,
+				date: data.date ? dateTimeFormatter.format(new Date(data.date)) : undefined,
+				summary: data.summary,
+				speaker,
+				speakerBio,
+				streamUrl: data.streamUrl,
+				imageSrc,
+				imageAlt: data.image?.caption ?? data.speaker ?? data.title,
+				hasSideContent: Boolean(imageSrc || speakerBio || speaker),
+				Abstract,
+			};
+		}),
+);
+---
+
+<PageLayout locale={locale} title={documentTitle}>
+	<MainContent>
+		<PageSection class="gap-y-10">
+			<PageTitle class="text-6xl text-east-bay-700">{pageTitle}</PageTitle>
+			<div class="flex flex-col gap-16">
+				{
+					keynoteSections.map((keynote, index) => (
+						<section
+							class:list={[
+								"grid gap-6 rounded-2xl p-6 md:p-8",
+								keynote.hasSideContent &&
+									"md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] md:items-start md:gap-8",
+								index % 2 === 1 && "bg-periwinkle-200",
+							]}
+						>
+							{keynote.hasSideContent ? (
+								<div class="flex flex-col gap-y-4">
+									{keynote.imageSrc ? (
+										<Image
+											src={getImageImport(keynote.imageSrc)}
+											alt={keynote.imageAlt}
+											class="w-full rounded-xl object-cover"
+											decoding="auto"
+											loading="lazy"
+										/>
+									) : null}
+									{keynote.speaker ? (
+										<p class="text-lg font-semibold text-east-bay-700">{keynote.speaker}</p>
+									) : null}
+									{keynote.speakerBio ? (
+										<p class="text-base leading-relaxed text-slate-500">{keynote.speakerBio}</p>
+									) : null}
+								</div>
+							) : null}
+							<div class="flex flex-col gap-y-4">
+								<header class="flex flex-col gap-y-3">
+									<h2 class="text-4xl font-bold leading-tight text-east-bay-700">
+										{keynote.title}
+									</h2>
+									{keynote.subtitle ? (
+										<p class="text-xl font-semibold text-east-bay-500">{keynote.subtitle}</p>
+									) : null}
+									{keynote.date ? (
+										<dl class="flex flex-wrap gap-x-4 gap-y-2 text-sm uppercase tracking-wide text-east-bay-500">
+											<dt class="sr-only">Date</dt>
+											<dd>{keynote.date}</dd>
+										</dl>
+									) : null}
+								</header>
+								{keynote.summary ? (
+									<p class="text-base leading-relaxed text-slate-700">{keynote.summary}</p>
+								) : null}
+								{keynote.Abstract ? (
+									<div class="prose prose-base max-w-none text-slate-700">
+										<keynote.Abstract />
+									</div>
+								) : null}
+								{keynote.streamUrl ? (
+									<a
+										class="inline-block self-start rounded-full border border-east-bay-500 px-4 py-2 text-center text-sm font-semibold uppercase tracking-wide text-east-bay-600 transition hover:bg-east-bay-500 hover:text-white"
+										href={keynote.streamUrl}
+										rel="noreferrer"
+										target="_blank"
+									>
+										Watch Stream
+									</a>
+								) : null}
+							</div>
+						</section>
+					))
+				}
+			</div>
+		</PageSection>
+	</MainContent>
+</PageLayout>

@@ -35,6 +35,12 @@
 			"title": "Home"
 		}
 	},
+	"KeynotesPage": {
+		"meta": {
+			"title": "Keynotes"
+		},
+		"title": "Keynotes"
+	},
 	"LocaleSwitcher": {
 		"current-locale": "Current locale: {locale}",
 		"switch-locale": "Switch locale",
