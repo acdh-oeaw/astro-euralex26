@@ -61,9 +61,11 @@ const { title, summary, image } = callForPapers!.data;
 				src={logoLight}
 			/>
 			<div class="relative grid place-items-center gap-y-10 py-20 text-white">
-				<h1 class="text-5xl leading-tight">{hero.title}</h1>
-				<p class="text-8xl font-extrabold uppercase">{hero.lead}</p>
-				<p class="text-5xl uppercase">29.9. – 3.10.2026, Vienna</p>
+				<p class="leading-tight xs:text-sm md:text-3xl">{hero.title}</p>
+				<p class="font-extrabold uppercase xs:text-4xl lg:text-6xl xl:text-7xl 2xl:text-8xl">
+					{hero.lead}
+				</p>
+				<p class="text-2xl uppercase xs:text-4xl md:text-5xl">29.9. – 3.10.2026, Vienna</p>
 			</div>
 		</section>
 		<section class="container relative mx-auto grid max-w-screen-lg gap-y-8 px-4 py-12 xs:px-8">
