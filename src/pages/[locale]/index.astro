@@ -65,7 +65,7 @@ const { title, summary, image } = callForPapers!.data;
 				src={logoLight}
 			/>
 			<div class="relative grid place-items-center gap-y-10 py-20 text-white">
-				<p class="leading-tight xs:text-sm md:text-3xl">{hero.title}</p>
+				<h1 class="text-3xl leading-tight xs:text-4xl md:text-5xl lg:text-6xl">{hero.title}</h1>
 				<p class="font-extrabold uppercase xs:text-4xl lg:text-6xl xl:text-7xl 2xl:text-8xl">
 					{hero.lead}
 				</p>
@@ -77,7 +77,7 @@ const { title, summary, image } = callForPapers!.data;
 				<Content />
 			</div>
 		</section>
-		<section class="relative w-full bg-periwinkle-200 py-12">
+		<section id="callforpapers" class="relative w-full bg-periwinkle-200 py-12">
 			<div
 				class="mx-auto grid max-w-screen-lg grid-cols-1 items-center gap-20 gap-y-8 px-4 xs:px-8 md:grid-cols-2"
 			>
@@ -153,20 +153,23 @@ const { title, summary, image } = callForPapers!.data;
 			<div class="container mx-auto max-w-screen-lg px-4 xs:px-8">
 				<div class="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
 					{
-						programme.map((keynote) => (
-							<div class="flex flex-col items-center rounded-xl bg-white p-4 shadow">
-								{keynote.data.image.src && (
+						programme.map((day) => (
+							<a
+								class="flex flex-col items-center rounded-xl bg-white p-4 shadow transition hover:-translate-y-1 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-east-bay-600"
+								href={`/${locale.toString()}/programme/${day.id}`}
+							>
+								{day.data.image.src && (
 									<Image
-										src={getImageImport(keynote.data.image.src)}
-										alt={keynote.data.title}
+										src={getImageImport(day.data.image.src)}
+										alt={day.data.title}
 										class="mb-4 h-48 w-full rounded-lg object-cover"
 										decoding="auto"
 										loading="lazy"
 									/>
 								)}
-								<h2 class="text-center text-xl font-bold">{keynote.data.title}</h2>
-								<p class="mt-2 text-center">{keynote.data.date}</p>
-							</div>
+								<h2 class="text-center text-xl font-bold">{day.data.title}</h2>
+								<p class="mt-2 text-center">{day.data.date}</p>
+							</a>
 						))
 					}
 				</div>

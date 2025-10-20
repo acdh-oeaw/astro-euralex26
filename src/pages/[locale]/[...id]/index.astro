@@ -1,10 +1,13 @@
 ---
+import { Image } from "astro:assets";
+
 import MainContent from "@/components/main-content.astro";
 import PageSection from "@/components/page-section.astro";
 import PageTitle from "@/components/page-title.astro";
 import { locales } from "@/config/i18n.config";
 import PageLayout from "@/layouts/page-layout.astro";
 import { createCollectionResource } from "@/lib/content/create-resource";
+import { getImageImport } from "@/lib/get-image-import";
 
 export async function getStaticPaths() {
 	return (
@@ -25,15 +28,49 @@ const { locale } = Astro.params;
 const { page } = Astro.props;
 
 const documentTitle = page.data.title;
-const { content, title } = page.data;
+const { content, title, summary, image } = page.data;
 const { default: Content } = await page.compile(content);
+const heroImage = image;
 ---
 
 <PageLayout locale={locale} title={documentTitle}>
+	{
+		heroImage ? (
+			<div class="relative h-72 w-full overflow-hidden md:h-96">
+				<Image
+					src={getImageImport(heroImage)}
+					class="size-full object-cover"
+					alt="hero image"
+					decoding="auto"
+					loading="eager"
+				/>
+				<div class="absolute inset-0 bg-gradient-to-b from-black/40 to-black/70" />
+				<div class="absolute inset-x-0 bottom-0 px-6 py-8 text-white md:px-12">
+					<PageTitle class="text-4xl text-white md:text-6xl">{title}</PageTitle>
+					{summary ? (
+						<p class="mt-3 max-w-3xl text-base leading-relaxed text-white/85 md:text-lg">
+							{summary}
+						</p>
+					) : null}
+				</div>
+			</div>
+		) : null
+	}
 	<MainContent>
 		<PageSection>
-			<PageTitle class="text-6xl text-east-bay-700">{title}</PageTitle>
-			<hr class="mb-2 border-solid border-black" />
+			{
+				!heroImage ? (
+					<>
+						<PageTitle class="text-6xl text-east-bay-700">{title}</PageTitle>
+						<hr class="mb-2 border-solid border-black" />
+					</>
+				) : null
+			}
+			{
+				summary && !heroImage ? (
+					<p class="mb-6 text-lg leading-relaxed text-slate-700">{summary}</p>
+				) : null
+			}
 			<div class="prose">
 				<Content />
 			</div>

@@ -41,6 +41,12 @@
 		},
 		"title": "Keynotes"
 	},
+	"ProgrammePage": {
+		"meta": {
+			"title": "Programm"
+		},
+		"title": "Programm"
+	},
 	"LocaleSwitcher": {
 		"current-locale": "Aktuelle Sprache: {locale}",
 		"switch-locale": "Sprache wechseln",
