@@ -1,0 +1,92 @@
+---
+import { Image } from "astro:assets";
+
+import MainContent from "@/components/main-content.astro";
+import PageSection from "@/components/page-section.astro";
+import PageTitle from "@/components/page-title.astro";
+import { locales } from "@/config/i18n.config";
+import PageLayout from "@/layouts/page-layout.astro";
+import { createCollectionResource } from "@/lib/content/create-resource";
+import { getImageImport } from "@/lib/get-image-import";
+import { createI18n } from "@/lib/i18n";
+
+export async function getStaticPaths() {
+	const paths = await Promise.all(
+		locales.map(async (locale) => {
+			const programme = await createCollectionResource("days", locale).all();
+
+			return programme.map((day) => ({
+				params: { locale, programmeId: day.id },
+				props: { day },
+			}));
+		}),
+	);
+
+	return paths.flat();
+}
+
+type StaticPath = Awaited<ReturnType<typeof getStaticPaths>>[number];
+type Params = StaticPath["params"];
+type Props = StaticPath["props"];
+
+const { locale } = Astro.params as Params;
+const { day } = Astro.props;
+
+const { t } = await createI18n(locale);
+const dateFormatter = new Intl.DateTimeFormat(locale, { dateStyle: "long" });
+
+const documentTitle = `${day.data.title} | ${t("ProgrammePage.meta.title")}`;
+const pageTitle = day.data.title;
+const date = day.data.date ? dateFormatter.format(new Date(day.data.date)) : undefined;
+const Body = day.data.content ? (await day.compile(day.data.content)).default : null;
+const heroImage = day.data.image.src ? getImageImport(day.data.image.src) : null;
+---
+
+<PageLayout locale={locale} title={documentTitle}>
+	{
+		heroImage ? (
+			<div class="relative h-72 w-full overflow-hidden md:h-96">
+				<Image
+					src={heroImage}
+					alt={day.data.image.caption}
+					class="size-full object-cover"
+					decoding="auto"
+					loading="eager"
+				/>
+				<div class="absolute inset-0 bg-gradient-to-b from-black/40 to-black/70" />
+				<div class="absolute inset-x-0 bottom-0 px-6 py-8 text-white md:px-12">
+					<PageTitle class="text-4xl text-white md:text-6xl">{pageTitle}</PageTitle>
+					{date ? (
+						<p class="mt-2 text-sm uppercase tracking-wide text-white/80 md:text-base">{date}</p>
+					) : null}
+				</div>
+			</div>
+		) : null
+	}
+	<MainContent>
+		<PageSection class="gap-y-10">
+			{
+				!heroImage ? (
+					<>
+						<PageTitle class="text-6xl text-east-bay-700">{pageTitle}</PageTitle>
+						{date ? <p class="text-sm uppercase tracking-wide text-east-bay-500">{date}</p> : null}
+					</>
+				) : null
+			}
+			<div class="flex flex-col gap-y-6">
+				{
+					day.data.summary ? (
+						<p class="text-lg leading-relaxed text-slate-700">{day.data.summary}</p>
+					) : null
+				}
+				{
+					Body ? (
+						<div class="prose prose-base max-w-none text-slate-700">
+							<Body />
+						</div>
+					) : null
+				}
+			</div>
+		</PageSection>
+	</MainContent>
+</PageLayout>
