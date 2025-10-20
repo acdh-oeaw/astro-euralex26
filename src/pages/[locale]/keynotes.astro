@@ -71,6 +71,7 @@ const keynoteSections = await Promise.all(
 				{
 					keynoteSections.map((keynote, index) => (
 						<section
+							id={keynote.id}
 							class:list={[
 								"grid gap-6 rounded-2xl p-6 md:p-8",
 								keynote.hasSideContent &&
@@ -105,6 +106,16 @@ const keynoteSections = await Promise.all(
 									{keynote.subtitle ? (
 										<p class="text-xl font-semibold text-east-bay-500">{keynote.subtitle}</p>
 									) : null}
+									{keynote.streamUrl ? (
+										<a
+											class="inline-block rounded-full bg-east-bay-600 px-4 py-2 text-center text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-east-bay-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-east-bay-600"
+											href={keynote.streamUrl}
+											rel="noreferrer"
+											target="_blank"
+										>
+											Watch Stream
+										</a>
+									) : null}
 									{keynote.date ? (
 										<dl class="flex flex-wrap gap-x-4 gap-y-2 text-sm uppercase tracking-wide text-east-bay-500">
 											<dt class="sr-only">Date</dt>
@@ -119,16 +130,6 @@ const keynoteSections = await Promise.all(
 									<div class="prose prose-base max-w-none text-slate-700">
 										<keynote.Abstract />
 									</div>
-								) : null}
-								{keynote.streamUrl ? (
-									<a
-										class="inline-block self-start rounded-full border border-east-bay-500 px-4 py-2 text-center text-sm font-semibold uppercase tracking-wide text-east-bay-600 transition hover:bg-east-bay-500 hover:text-white"
-										href={keynote.streamUrl}
-										rel="noreferrer"
-										target="_blank"
-									>
-										Watch Stream
-									</a>
 								) : null}
 							</div>
 						</section>

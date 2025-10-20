@@ -24,7 +24,11 @@ export function getStaticPaths() {
 	);
 }
 
-const { locale } = Astro.params;
+type StaticPath = Awaited<ReturnType<typeof getStaticPaths>>[number];
+type Params = StaticPath["params"];
+type Props = StaticPath["props"];
+
+const { locale } = Astro.params as Params;
 
 const { page, callForPapers, keynotes, programme } = Astro.props;
 
@@ -117,7 +121,10 @@ const { title, summary, image } = callForPapers!.data;
 				<div class="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
 					{
 						keynotes.map((keynote) => (
-							<div class="flex flex-col items-center rounded-xl bg-white p-4 shadow">
+							<a
+								class="flex flex-col items-center rounded-xl bg-white p-4 shadow transition hover:-translate-y-1 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-east-bay-600"
+								href={`/${locale.toString()}/keynotes#${keynote.id.toString()}`}
+							>
 								{keynote.data.image.src && (
 									<Image
 										src={getImageImport(keynote.data.image.src)}
@@ -129,7 +136,7 @@ const { title, summary, image } = callForPapers!.data;
 								)}
 								<h2 class="text-center text-xl font-bold">{keynote.data.title}</h2>
 								<p class="mt-2 text-center">{keynote.data.speaker}</p>
-							</div>
+							</a>
 						))
 					}
 				</div>
