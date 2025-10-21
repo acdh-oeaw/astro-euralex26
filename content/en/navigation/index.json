@@ -16,18 +16,10 @@
       }
     },
     {
-      "discriminant": "menu",
+      "discriminant": "page",
       "value": {
         "label": "Registration",
-        "links": [
-          {
-            "discriminant": "page",
-            "value": {
-              "label": "Call for Papers",
-              "id": "call-for-papers"
-            }
-          }
-        ]
+        "id": "registration"
       }
     },
     {
