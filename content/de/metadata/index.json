@@ -3,7 +3,7 @@
   "description": "XXII EURALEX International Congress: Lexicography in the Age of AI",
   "twitter": {
     "creator": "@Euralex_news",
-    "site": "@Euralex_news"
+    "site": "https://euralex.org/"
   },
   "manifest": {
     "name": "ACDH Website",
