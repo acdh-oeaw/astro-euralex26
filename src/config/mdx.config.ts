@@ -13,7 +13,6 @@ import { config as syntaxHighlighterConfig } from "@/config/syntax-highlighter.c
 import { withCustomHeadingIds } from "@/lib/content/with-custom-heading-ids";
 import { withFootnotes } from "@/lib/content/with-footnotes";
 import { withIframeTitles } from "@/lib/content/with-iframe-titles";
-import { withImageImports } from "@/lib/content/with-image-imports";
 import { withMdxTableOfContents, withTableOfContents } from "@/lib/content/with-table-of-contents";
 import { createI18n } from "@/lib/i18n";
 
@@ -76,7 +75,6 @@ export async function createMdxConfig(locale: Locale): Promise<CompileOptions> {
 			withMdxTableOfContents,
 			withIframeTitles,
 			[withSyntaxHighlighter, syntaxHighlighterConfig],
-			withImageImports,
 		],
 	};
 
