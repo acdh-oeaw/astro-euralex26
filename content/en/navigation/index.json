@@ -8,8 +8,8 @@
           {
             "discriminant": "page",
             "value": {
-              "label": "programme",
-              "id": "kitchen-sink"
+              "label": "Call for Papers",
+              "id": "call-for-papers"
             }
           }
         ]
