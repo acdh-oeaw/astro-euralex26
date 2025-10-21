@@ -8,21 +8,6 @@
           {
             "discriminant": "page",
             "value": {
-              "label": "Info",
-              "id": "kitchen-sink"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "discriminant": "menu",
-      "value": {
-        "label": "Registration",
-        "links": [
-          {
-            "discriminant": "page",
-            "value": {
               "label": "Call for Papers",
               "id": "call-for-papers"
             }
@@ -31,15 +16,22 @@
       }
     },
     {
+      "discriminant": "page",
+      "value": {
+        "label": "Anmeldung",
+        "id": "registration"
+      }
+    },
+    {
       "discriminant": "menu",
       "value": {
         "label": "Programm",
         "links": [
           {
-            "discriminant": "link",
+            "discriminant": "page",
             "value": {
-              "label": "Keynotes",
-              "href": "/keynotes"
+              "label": "Zeitplan",
+              "id": "schedule"
             }
           }
         ]
@@ -49,7 +41,7 @@
       "discriminant": "page",
       "value": {
         "label": "Organisation",
-        "id": "kitchen-sink"
+        "id": "organizing-committee"
       }
     }
   ]

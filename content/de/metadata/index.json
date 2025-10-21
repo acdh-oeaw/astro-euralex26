@@ -1,13 +1,13 @@
 {
-	"title": "ACDH-CH Website",
-	"description": "Eine Projekt-Website.",
-	"twitter": {
-		"creator": "@acdh_oeaw",
-		"site": "@acdh_oeaw"
-	},
-	"manifest": {
-		"name": "ACDH-CH Website",
-		"short-name": "ACDH-CH Website",
-		"description": "Eine Projekt-Website."
-	}
+  "title": "EURALEX 2026",
+  "description": "XXII EURALEX International Congress: Lexicography in the Age of AI",
+  "twitter": {
+    "creator": "@Euralex_news",
+    "site": "https://euralex.org/"
+  },
+  "manifest": {
+    "name": "ACDH Website",
+    "short-name": "ACDH Website",
+    "description": "Website for EURALEX 2026, run by ACDH."
+  }
 }
