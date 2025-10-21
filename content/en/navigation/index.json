@@ -53,18 +53,10 @@
       }
     },
     {
-      "discriminant": "menu",
+      "discriminant": "page",
       "value": {
         "label": "Organisation",
-        "links": [
-          {
-            "discriminant": "page",
-            "value": {
-              "label": "Org",
-              "id": "kitchen-sink"
-            }
-          }
-        ]
+        "id": "organizing-committee"
       }
     }
   ]
