@@ -28,10 +28,10 @@
         "label": "Programm",
         "links": [
           {
-            "discriminant": "link",
+            "discriminant": "page",
             "value": {
-              "label": "Keynotes",
-              "href": "/keynotes"
+              "label": "Zeitplan",
+              "id": "schedule"
             }
           }
         ]
