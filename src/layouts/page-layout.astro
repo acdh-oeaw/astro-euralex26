@@ -18,9 +18,9 @@ const { description, locale, robots, title } = Astro.props;
 <DocumentLayout description={description} locale={locale} robots={robots} title={title}>
 	<SkipLink />
 
-	<div class="grid min-h-full grid-rows-[auto_1fr_auto]">
+	<div class="flex min-h-full flex-col justify-start">
 		<WebsiteHeader />
 		<slot />
-		<WebsiteFooter />
+		<WebsiteFooter class="mt-auto" />
 	</div>
 </DocumentLayout>
