@@ -44,11 +44,10 @@ export default defineConfig({
 					"message-circle",
 					"search",
 					"square-arrow-left",
-					"x",
-					"twitter",
 					"mail",
+					"facebook",
 				],
-				simpleIcons: [],
+				simpleIcons: ["x", "bluesky"],
 			},
 			svgoOptions: {
 				multipass: true,
