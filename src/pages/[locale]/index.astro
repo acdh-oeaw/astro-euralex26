@@ -36,6 +36,8 @@ const { t } = await createI18n(locale);
 
 const documentTitle = t("IndexPage.meta.title");
 const { hero, content } = page.data;
+const hasKeynotes = keynotes.length > 0;
+const hasProgramme = programme.length > 0;
 const { default: Content } = await page.compile(content);
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -109,71 +111,71 @@ const { title, summary, image } = callForPapers!.data;
 				</div>
 			</div>
 		</section>
-		<section class="relative w-full py-12">
-			<div class="mx-auto mb-12 flex max-w-screen-lg justify-center px-4 xs:px-8">
-				<h1
-					class="text-center text-7xl font-extrabold uppercase leading-tight [word-spacing:50rem]"
-				>
-					KEYNOTES
-				</h1>
-			</div>
-			<div class="container mx-auto max-w-screen-lg px-4 xs:px-8">
-				<div class="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
-					{
-						keynotes.map((keynote) => (
-							<a
-								class="flex flex-col items-center rounded-xl bg-white p-4 shadow transition hover:-translate-y-1 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-east-bay-600"
-								href={`/${locale.toString()}/keynotes#${keynote.id.toString()}`}
-							>
-								{keynote.data.image.src && (
-									<Image
-										src={getImageImport(keynote.data.image.src)}
-										alt={keynote.data.title}
-										class="mb-4 h-48 w-full rounded-lg object-cover"
-										decoding="auto"
-										loading="lazy"
-									/>
-								)}
-								<h2 class="text-center text-xl font-bold">{keynote.data.title}</h2>
-								<p class="mt-2 text-center">{keynote.data.speaker}</p>
-							</a>
-						))
-					}
-				</div>
-			</div>
-		</section>
-		<section class="relative w-full bg-periwinkle-200 py-12">
-			<div class="mx-auto mb-12 flex max-w-screen-lg justify-center px-4 xs:px-8">
-				<h1
-					class="text-center text-7xl font-extrabold uppercase leading-tight [word-spacing:50rem]"
-				>
-					Programme
-				</h1>
-			</div>
-			<div class="container mx-auto max-w-screen-lg px-4 xs:px-8">
-				<div class="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
-					{
-						programme.map((day) => (
-							<a
-								class="flex flex-col items-center rounded-xl bg-white p-4 shadow transition hover:-translate-y-1 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-east-bay-600"
-								href={`/${locale.toString()}/programme/${day.id}`}
-							>
-								{day.data.image.src && (
-									<Image
-										src={getImageImport(day.data.image.src)}
-										alt={day.data.title}
-										class="mb-4 h-48 w-full rounded-lg object-cover"
-										decoding="auto"
-										loading="lazy"
-									/>
-								)}
-								<h2 class="text-center text-xl font-bold">{day.data.title}</h2>
-								<p class="mt-2 text-center">{day.data.date}</p>
-							</a>
-						))
-					}
-				</div>
-			</div>
-		</section>
+		{
+			hasKeynotes ? (
+				<section class="relative w-full py-12">
+					<div class="mx-auto mb-12 flex max-w-screen-lg justify-center px-4 xs:px-8">
+						<h1 class="text-center text-7xl font-extrabold uppercase leading-tight [word-spacing:50rem]">
+							KEYNOTES
+						</h1>
+					</div>
+					<div class="container mx-auto max-w-screen-lg px-4 xs:px-8">
+						<div class="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
+							{keynotes.map((keynote) => (
+								<a
+									class="flex flex-col items-center rounded-xl bg-white p-4 shadow transition hover:-translate-y-1 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-east-bay-600"
+									href={`/${locale.toString()}/keynotes#${keynote.id.toString()}`}
+								>
+									{keynote.data.image.src && (
+										<Image
+											src={getImageImport(keynote.data.image.src)}
+											alt={keynote.data.title}
+											class="mb-4 h-48 w-full rounded-lg object-cover"
+											decoding="auto"
+											loading="lazy"
+										/>
+									)}
+									<h2 class="text-center text-xl font-bold">{keynote.data.title}</h2>
+									<p class="mt-2 text-center">{keynote.data.speaker}</p>
+								</a>
+							))}
+						</div>
+					</div>
+				</section>
+			) : null
+		}
+		{
+			hasProgramme ? (
+				<section class="relative w-full bg-periwinkle-200 py-12">
+					<div class="mx-auto mb-12 flex max-w-screen-lg justify-center px-4 xs:px-8">
+						<h1 class="text-center text-7xl font-extrabold uppercase leading-tight [word-spacing:50rem]">
+							Programme
+						</h1>
+					</div>
+					<div class="container mx-auto max-w-screen-lg px-4 xs:px-8">
+						<div class="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
+							{programme.map((day) => (
+								<a
+									class="flex flex-col items-center rounded-xl bg-white p-4 shadow transition hover:-translate-y-1 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-east-bay-600"
+									href={`/${locale.toString()}/programme/${day.id}`}
+								>
+									{day.data.image.src && (
+										<Image
+											src={getImageImport(day.data.image.src)}
+											alt={day.data.title}
+											class="mb-4 h-48 w-full rounded-lg object-cover"
+											decoding="auto"
+											loading="lazy"
+										/>
+									)}
+									<h2 class="text-center text-xl font-bold">{day.data.title}</h2>
+									<p class="mt-2 text-center">{day.data.date}</p>
+								</a>
+							))}
+						</div>
+					</div>
+				</section>
+			) : null
+		}
 	</MainContent>
 </PageLayout>
