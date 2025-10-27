@@ -38,10 +38,18 @@
       }
     },
     {
-      "discriminant": "page",
+      "discriminant": "menu",
       "value": {
         "label": "Organisation",
-        "id": "organising-committee"
+        "links": [
+          {
+            "discriminant": "page",
+            "value": {
+              "label": "Local Organisers",
+              "id": "local-organisers"
+            }
+          }
+        ]
       }
     }
   ]
