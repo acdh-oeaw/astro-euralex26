@@ -2,14 +2,12 @@ import mdx from "@astrojs/mdx";
 import node from "@astrojs/node";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
-import solidJs from "@astrojs/solid-js";
 import { defineConfig } from "astro/config";
 import icon from "astro-icon";
 import type { Writable } from "type-fest";
 import { loadEnv } from "vite";
 
 import { defaultLocale, locales } from "./src/config/i18n.config";
-// import { createConfig as createMdxConfig } from "./src/config/mdx.config";
 
 const env = loadEnv(import.meta.env.MODE, process.cwd(), "");
 
@@ -23,12 +21,6 @@ export default defineConfig({
 		mode: "standalone",
 	}),
 	base: env.PUBLIC_APP_BASE_PATH,
-	experimental: {
-		// actions: true,
-		// contentCollectionCache: true,
-		// env: {},
-		// serverIslands: true,
-	},
 	i18n: {
 		defaultLocale,
 		locales: locales as Writable<typeof locales>,
@@ -64,10 +56,6 @@ export default defineConfig({
 			},
 		}),
 		mdx(),
-		/**
-		 * @see https://docs.astro.build/en/guides/integrations-guide/solid-js/#combining-multiple-jsx-frameworks
-		 * @see https://github.com/Thinkmill/keystatic/discussions/951
-		 */
 		react({
 			include: ["**/content/**", "**/keystatic/**"],
 		}),
@@ -81,18 +69,7 @@ export default defineConfig({
 				),
 			},
 		}),
-		solidJs({
-			exclude: ["**/content/**", "**/keystatic/**"],
-		}),
 	],
-	/** Use `@/lib/content/get-mdx-content.ts` instead of astro's built-in markdown processor. */
-	// // @ts-expect-error Astro types are incomplete.
-	// markdown: {
-	// 	...(await createMdxConfig(defaultLocale)),
-	// 	gfm: false,
-	// 	smartypants: false,
-	// 	syntaxHighlight: false,
-	// },
 	output: "hybrid",
 	prefetch: {
 		defaultStrategy: "hover",

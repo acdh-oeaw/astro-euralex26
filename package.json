@@ -4,10 +4,9 @@
 	"license": "MIT",
 	"type": "module",
 	"engines": {
-		"node": "20.x",
-		"pnpm": "9.x"
+		"node": "^24"
 	},
-	"packageManager": "pnpm@9.9.0",
+	"packageManager": "pnpm@10.24.0",
 	"scripts": {
 		"build": "run-s build:site generate:search-index",
 		"build:site": "astro build",
@@ -43,7 +42,6 @@
 		"@astrojs/react": "^3.6.2",
 		"@astrojs/rss": "^4.0.7",
 		"@astrojs/sitemap": "^3.1.6",
-		"@astrojs/solid-js": "^4.4.1",
 		"@floating-ui/dom": "^1.6.10",
 		"@fontsource-variable/inter": "^5.0.20",
 		"@fontsource/red-hat-display": "5.2.8",
@@ -78,7 +76,6 @@
 		"satori": "^0.10.14",
 		"sharp": "^0.33.5",
 		"shiki": "^1.14.1",
-		"solid-js": "^1.8.22",
 		"unified": "^11.0.5",
 		"unist-util-visit": "^5.0.0",
 		"valibot": "^0.39.0",
@@ -101,7 +98,7 @@
 		"@types/hast": "^3.0.4",
 		"@types/mdast": "^4.0.4",
 		"@types/mdx": "^2.0.13",
-		"@types/node": "^20.16.1",
+		"@types/node": "^24.10.1",
 		"@types/nodemailer": "^6.4.15",
 		"@types/react": "^18.3.4",
 		"@types/react-dom": "^18.3.0",
