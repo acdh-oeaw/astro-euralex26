@@ -59,14 +59,15 @@ const { title, summary, image } = callForPapers!.data;
 					/>
 				) : null
 			}
-			<Image
-				class="relative z-30 block h-auto w-1/6"
-				alt=""
-				decoding="auto"
-				fetchpriority="high"
-				src={logoLight}
-			/>
 			<div class="relative grid place-items-center gap-y-10 py-20 text-white">
+				<Image
+					class="relative z-30 block h-auto w-1/6"
+					alt=""
+					decoding="auto"
+					fetchpriority="high"
+					src={logoLight}
+				/>
+
 				<h1 class="leading-tight xs:text-xs md:text-2xl lg:text-4xl xl:text-5xl">{hero.title}</h1>
 				<p class="font-extrabold uppercase xs:text-4xl lg:text-6xl 2xl:text-7xl">
 					{hero.lead}
