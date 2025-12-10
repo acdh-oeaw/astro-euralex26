@@ -33,6 +33,13 @@
               "label": "Zeitplan",
               "id": "schedule"
             }
+          },
+          {
+            "discriminant": "link",
+            "value": {
+              "label": "Keynotes",
+              "href": "https://euralex2026.at/de/keynotes"
+            }
           }
         ]
       }
