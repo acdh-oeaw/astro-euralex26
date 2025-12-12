@@ -71,12 +71,12 @@ const keynotes = createCollection((locale) => {
 			}),
 			summary: fields.text({
 				label: "Summary",
-				validation: { isRequired: true },
+				validation: { isRequired: false },
 				multiline: true,
 			}),
 			date: fields.datetime({
 				label: "Date",
-				validation: { isRequired: true },
+				validation: { isRequired: false },
 				defaultValue: { kind: "now" },
 			}),
 			image: fields.object(
