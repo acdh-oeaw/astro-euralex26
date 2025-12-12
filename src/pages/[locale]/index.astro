@@ -122,24 +122,26 @@ const { title, summary, image } = callForPapers!.data;
 					</div>
 					<div class="container mx-auto max-w-screen-lg px-4 xs:px-8">
 						<div class="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
-							{keynotes.map((keynote) => (
-								<a
-									class="flex flex-col items-center rounded-xl bg-white p-4 shadow transition hover:-translate-y-1 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-east-bay-600"
-									href={`/${locale.toString()}/keynotes#${keynote.id.toString()}`}
-								>
-									{keynote.data.image.src && (
-										<Image
-											src={getImageImport(keynote.data.image.src)}
-											alt={keynote.data.title}
-											class="mb-4 h-48 w-full rounded-lg object-cover"
-											decoding="auto"
-											loading="lazy"
-										/>
-									)}
-									<h2 class="text-center text-xl font-bold">{keynote.data.title}</h2>
-									<p class="mt-2 text-center">{keynote.data.speaker}</p>
-								</a>
-							))}
+							{keynotes
+								.sort((a, b) => a.data.speaker.localeCompare(b.data.speaker))
+								.map((keynote) => (
+									<a
+										class="flex flex-col items-center rounded-xl bg-white p-4 shadow transition hover:-translate-y-1 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-east-bay-600"
+										href={`/${locale.toString()}/keynotes#${keynote.id.toString()}`}
+									>
+										{keynote.data.image.src && (
+											<Image
+												src={getImageImport(keynote.data.image.src)}
+												alt={keynote.data.title}
+												class="mb-4 h-48 w-full rounded-lg object-cover"
+												decoding="auto"
+												loading="lazy"
+											/>
+										)}
+										<h2 class="text-center text-xl font-bold">{keynote.data.title}</h2>
+										<p class="mt-2 text-center">{keynote.data.speaker}</p>
+									</a>
+								))}
 						</div>
 					</div>
 				</section>
