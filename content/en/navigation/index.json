@@ -8,6 +8,13 @@
           {
             "discriminant": "page",
             "value": {
+              "label": "Important Dates",
+              "id": "important-dates"
+            }
+          },
+          {
+            "discriminant": "page",
+            "value": {
               "label": "Call for Papers",
               "id": "call-for-papers"
             }
