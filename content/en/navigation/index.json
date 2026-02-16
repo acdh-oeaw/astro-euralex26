@@ -62,6 +62,20 @@
               "label": "Local Organisers",
               "id": "local-organisers"
             }
+          },
+          {
+            "discriminant": "page",
+            "value": {
+              "label": "Programme Committee",
+              "id": "programme-committee"
+            }
+          },
+          {
+            "discriminant": "page",
+            "value": {
+              "label": "Scientific Committee",
+              "id": "scientific-committee"
+            }
           }
         ]
       }
