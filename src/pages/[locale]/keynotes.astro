@@ -90,6 +90,10 @@ const keynoteSections = await Promise.all(
 											class="w-full rounded-xl object-cover"
 											decoding="auto"
 											loading="lazy"
+											widths={[480, 768, 960]}
+											sizes="(max-width: 768px) 100vw, 33vw"
+											format="webp"
+											quality={82}
 										/>
 									) : null}
 									{keynote.speaker ? (
