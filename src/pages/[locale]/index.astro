@@ -30,7 +30,7 @@ type Props = StaticPath["props"];
 
 const { locale } = Astro.params as Params;
 
-const { page, callForPapers, keynotes, programme } = Astro.props;
+const { page, keynotes, programme } = Astro.props;
 
 const { t } = await createI18n(locale);
 
@@ -39,9 +39,6 @@ const { hero, content } = page.data;
 const hasKeynotes = keynotes.length > 0;
 const hasProgramme = programme.length > 0;
 const { default: Content } = await page.compile(content);
-
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-const { title, summary, image } = callForPapers!.data;
 ---
 
 <PageLayout locale={locale} title={documentTitle}>
@@ -84,45 +81,9 @@ const { title, summary, image } = callForPapers!.data;
 				<Content />
 			</div>
 		</section>
-		<section id="callforpapers" class="relative w-full bg-periwinkle-200 py-12">
-			<div
-				class="mx-auto grid max-w-screen-lg grid-cols-1 items-center gap-20 gap-y-8 px-4 xs:px-8 md:grid-cols-2"
-			>
-				{
-					image ? (
-						<Image
-							alt=""
-							decoding="auto"
-							fetchpriority="high"
-							loading="eager"
-							src={getImageImport(image)}
-							class="h-full rounded-2xl"
-							widths={[640, 960, 1280]}
-							sizes="(max-width: 768px) 100vw, 50vw"
-							format="webp"
-							quality={82}
-						/>
-					) : null
-				}
-				<div>
-					<h1 class="text-7xl font-extrabold uppercase leading-tight [word-spacing:50rem]">
-						{title}
-					</h1>
-					<div class="prose font-bold">
-						{summary}
-					</div>
-					<a
-						class="mt-6 inline-block rounded-3xl border-2 border-black px-4 py-2 text-center font-semibold text-black"
-						href={`/${locale.toString()}/call-for-papers`}
-					>
-						Learn More
-					</a>
-				</div>
-			</div>
-		</section>
 		{
 			hasKeynotes ? (
-				<section class="relative w-full py-12">
+				<section class="relative w-full bg-periwinkle-200 py-12">
 					<div class="mx-auto mb-12 flex max-w-screen-lg justify-center px-4 xs:px-8">
 						<h1 class="text-center text-7xl font-extrabold uppercase leading-tight [word-spacing:50rem]">
 							KEYNOTES
