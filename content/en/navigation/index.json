@@ -18,6 +18,13 @@
               "label": "Call for Papers",
               "id": "call-for-papers"
             }
+          },
+          {
+            "discriminant": "page",
+            "value": {
+              "label": "Social Programme",
+              "id": "social-programme"
+            }
           }
         ]
       }
