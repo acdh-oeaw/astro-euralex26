@@ -54,6 +54,13 @@
               "label": "Keynotes",
               "href": "https://euralex2026.at/de/keynotes"
             }
+          },
+          {
+            "discriminant": "page",
+            "value": {
+              "label": "Workshops",
+              "id": "workshops"
+            }
           }
         ]
       }
