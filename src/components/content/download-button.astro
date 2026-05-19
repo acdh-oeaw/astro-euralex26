@@ -1,0 +1,29 @@
+---
+import { Icon } from "astro-icon/components";
+
+import Anchor from "@/components/link.astro";
+
+interface Props {
+	file: string;
+	label: string;
+}
+
+const { file, label } = Astro.props;
+
+const href = file.startsWith("public/downloads/")
+	? file.replace(/^public/, "")
+	: file.startsWith("/downloads/")
+		? file
+		: `/downloads/${file.replace(/^\/+/, "")}`;
+---
+
+<div class="flex">
+	<Anchor
+		class="inline-flex items-center gap-2 rounded-full bg-east-bay-600 px-4 py-2 text-center text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-east-bay-500"
+		download
+		href={href}
+	>
+		<Icon aria-hidden="true" class="size-4 shrink-0" name="lucide:download" />
+		<span>{label}</span>
+	</Anchor>
+</div>

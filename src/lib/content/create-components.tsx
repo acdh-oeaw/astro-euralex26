@@ -5,6 +5,7 @@ import { fields, NotEditable } from "@keystatic/core";
 import { block, inline, mark, repeating, wrapper } from "@keystatic/core/content-components";
 import {
 	CaptionsIcon,
+	DownloadIcon,
 	ExpandIcon,
 	GridIcon,
 	HeadingIcon,
@@ -106,6 +107,28 @@ function create(assetPath: `/${string}/`, locale: Locale) {
 						{children}
 					</details>
 				);
+			},
+		}),
+		DownloadButton: block({
+			label: "Download button",
+			description: "A button linking to a shared download file.",
+			icon: <DownloadIcon />,
+			schema: {
+				label: fields.text({
+					label: "Label",
+					validation: { isRequired: true },
+				}),
+				file: fields.pathReference({
+					label: "File",
+					description: "Choose a file uploaded in Data > Download files.",
+					pattern: "public/downloads/**/*.*",
+					validation: { isRequired: true },
+				}),
+			},
+			ContentView(props) {
+				const { value } = props;
+
+				return <NotEditable>{value.label}</NotEditable>;
 			},
 		}),
 		Embed: wrapper({

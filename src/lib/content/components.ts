@@ -2,6 +2,7 @@
 
 import Callout from "@/components/content/callout.astro";
 import Disclosure from "@/components/content/disclosure.astro";
+import DownloadButton from "@/components/content/download-button.astro";
 import Embed from "@/components/content/embed.astro";
 import Figure from "@/components/content/figure.astro";
 import Grid from "@/components/content/grid.astro";
@@ -17,6 +18,7 @@ const components = {
 	a: Anchor,
 	Callout,
 	Disclosure,
+	DownloadButton,
 	Embed,
 	Figure,
 	Grid,
