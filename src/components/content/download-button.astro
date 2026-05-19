@@ -1,6 +1,4 @@
 ---
-import { Icon } from "astro-icon/components";
-
 import Anchor from "@/components/link.astro";
 
 interface Props {
@@ -23,7 +21,6 @@ const href = file.startsWith("public/downloads/")
 		download
 		href={href}
 	>
-		<Icon aria-hidden="true" class="size-4 shrink-0" name="lucide:download" />
 		<span>{label}</span>
 	</Anchor>
 </div>
