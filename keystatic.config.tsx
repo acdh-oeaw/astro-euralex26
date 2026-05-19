@@ -6,12 +6,16 @@ import { Logo } from "@/components/content/logo";
 import { env } from "@/config/env.config";
 import { locales } from "@/config/i18n.config";
 import { collections } from "@/lib/content/collections";
+import { downloads } from "@/lib/content/downloads";
 import { i18n, withI18nPrefix } from "@/lib/content/i18n";
 import { singletons } from "@/lib/content/singletons";
 
 export default config({
 	collections: i18n(collections),
-	singletons: i18n(singletons),
+	singletons: {
+		...i18n(singletons),
+		downloads,
+	},
 	storage:
 		env.PUBLIC_KEYSTATIC_MODE === "github" &&
 		env.PUBLIC_KEYSTATIC_GITHUB_REPO_OWNER &&
@@ -35,7 +39,7 @@ export default config({
 			name: "Website",
 		},
 		navigation: {
-			data: [],
+			data: ["downloads"],
 			pages: [
 				...locales.map((locale) => withI18nPrefix(locale, "indexPage")),
 				"---",
