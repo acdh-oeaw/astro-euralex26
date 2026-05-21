@@ -25,6 +25,13 @@
               "label": "Social Programme",
               "id": "social-programme"
             }
+          },
+          {
+            "discriminant": "page",
+            "value": {
+              "label": "Sponsoren",
+              "id": "sponsors"
+            }
           }
         ]
       }
