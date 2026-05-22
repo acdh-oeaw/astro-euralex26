@@ -32,6 +32,13 @@
               "label": "Sponsors",
               "id": "sponsors"
             }
+          },
+          {
+            "discriminant": "page",
+            "value": {
+              "label": "EURALEX 2026 Grants",
+              "id": "grants"
+            }
           }
         ]
       }
