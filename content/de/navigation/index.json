@@ -8,6 +8,13 @@
           {
             "discriminant": "page",
             "value": {
+              "label": "Venue",
+              "id": "venue"
+            }
+          },
+          {
+            "discriminant": "page",
+            "value": {
               "label": "Wichtige Termine",
               "id": "important-dates"
             }
@@ -38,6 +45,13 @@
             "value": {
               "label": "EURALEX 2026 Grants",
               "id": "grants"
+            }
+          },
+          {
+            "discriminant": "page",
+            "value": {
+              "label": "Travel Info",
+              "id": "travel-info"
             }
           }
         ]
