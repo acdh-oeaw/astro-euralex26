@@ -50,7 +50,7 @@
           {
             "discriminant": "page",
             "value": {
-              "label": "Travel Info",
+              "label": "Reiseinformationen",
               "id": "travel-info"
             }
           }
