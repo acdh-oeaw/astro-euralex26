@@ -13,12 +13,20 @@ const href = file.startsWith("public/downloads/")
 	: file.startsWith("/downloads/")
 		? file
 		: `/downloads/${file.replace(/^\/+/, "")}`;
+
+const pathname = href.split(/[?#]/, 1)[0] ?? "";
+const pathParts = pathname.split("/").filter(Boolean);
+const fileName = pathParts.at(-1) ?? "download";
+const slug = pathParts.at(-2);
+const extension = fileName.includes(".") ? fileName.slice(fileName.lastIndexOf(".")) : "";
+const downloadFileName =
+	slug != null && fileName.startsWith("file.") ? `${slug}${extension}` : fileName;
 ---
 
 <div class="flex">
 	<Anchor
 		class="inline-flex items-center gap-2 rounded-full bg-east-bay-600 px-4 py-2 text-center text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-east-bay-500"
-		download
+		download={downloadFileName}
 		href={href}
 	>
 		<span>{label}</span>
