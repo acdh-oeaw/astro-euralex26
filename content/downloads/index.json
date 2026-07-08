@@ -3,9 +3,16 @@
     {
       "title": {
         "name": "GWLN-8 featuring ENEOLI Session",
-        "slug": "gwln-8-eneoli"
+        "slug": "gwln-8-featuring-eneoli-session"
       },
-      "file": "/downloads/files/gwln-8-eneoli/file.pdf"
+      "file": "/downloads/files/gwln-8-featuring-eneoli-session/file.pdf"
+    },
+    {
+      "title": {
+        "name": "Workshop Progam",
+        "slug": "workshop-progam"
+      },
+      "file": "/downloads/files/workshop-progam/file.pdf"
     }
   ]
 }
