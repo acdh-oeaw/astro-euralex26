@@ -102,6 +102,8 @@
 		"@types/nodemailer": "^6.4.24",
 		"@types/react": "18.3.4",
 		"@types/react-dom": "^18.3.7",
+		"@typescript-eslint/eslint-plugin": "7.18.0",
+		"@typescript-eslint/parser": "7.18.0",
 		"autoprefixer": "^10.5.4",
 		"axe-core": "^4.12.1",
 		"axe-playwright": "^2.2.2",
@@ -191,6 +193,18 @@
 		"pre-commit": "pnpm exec lint-staged"
 	},
 	"stylelint": {
-		"extends": "@acdh-oeaw/stylelint-config"
+		"extends": "@acdh-oeaw/stylelint-config",
+		"rules": {
+			"declaration-property-value-no-unknown": [
+				true,
+				{
+					"ignoreProperties": {
+						"/.+/": [
+							"/theme\\(.+\\)/"
+						]
+					}
+				}
+			]
+		}
 	}
 }

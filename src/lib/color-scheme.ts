@@ -1,8 +1,7 @@
 export type ColorScheme = "dark" | "light";
 
 export type ColorSchemeState =
-	| { kind: "system"; colorScheme: ColorScheme }
-	| { kind: "user"; colorScheme: ColorScheme };
+	{ kind: "system"; colorScheme: ColorScheme } | { kind: "user"; colorScheme: ColorScheme };
 
 declare global {
 	interface Window {
