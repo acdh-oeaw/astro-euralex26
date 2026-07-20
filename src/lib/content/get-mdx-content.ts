@@ -1,5 +1,5 @@
 import { run } from "@mdx-js/mdx";
-import * as runtime from "astro/jsx-runtime";
+import { Fragment, jsx, jsxs } from "astro/jsx-runtime";
 import type { MDXModule } from "mdx/types";
 
 import type { Locale } from "@/config/i18n.config";
@@ -23,5 +23,5 @@ export async function getMdxContent<T extends Record<string, unknown>>(
 	const file = await processor.process(code);
 
 	// @ts-expect-error Upstream type issue.
-	return run(file, { ...runtime, baseUrl, useMDXComponents });
+	return run(file, { Fragment, jsx, jsxs, baseUrl, useMDXComponents });
 }
