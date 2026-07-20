@@ -138,7 +138,13 @@
 	"pnpm": {
 		"overrides": {
 			"@types/react": "18.3.4"
-		}
+		},
+		"onlyBuiltDependencies": [
+			"esbuild",
+			"sharp",
+			"simple-git-hooks",
+			"unrs-resolver"
+		]
 	},
 	"eslintConfig": {
 		"extends": [
