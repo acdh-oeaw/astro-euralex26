@@ -16,10 +16,11 @@
     },
     {
       "title": {
-        "name": "EURALEX schedule (2026-08-25)",
-        "slug": "2026-08-25-euralex-schedule"
+        "name": "XXII EURALEX Schedule",
+        "slug": "xxii-euralex-schedule"
       },
-      "file": "/downloads/files/2026-08-25-euralex-schedule/file.pdf"
+      "file": "/downloads/files/xxii-euralex-schedule/file.pdf",
+      "note": "Programm as of 25.8.26"
     }
   ]
 }
