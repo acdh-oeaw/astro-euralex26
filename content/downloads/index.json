@@ -13,6 +13,14 @@
         "slug": "workshop-progam"
       },
       "file": "/downloads/files/workshop-progam/file.pdf"
+    },
+    {
+      "title": {
+        "name": "XXII EURALEX Schedule",
+        "slug": "xxii-euralex-schedule"
+      },
+      "file": "/downloads/files/xxii-euralex-schedule/file.pdf",
+      "note": "Programm as of 25.8.26"
     }
   ]
 }
