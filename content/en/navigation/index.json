@@ -43,7 +43,7 @@
           {
             "discriminant": "page",
             "value": {
-              "label": "EURALEX 2026 Grants",
+              "label": "Grants",
               "id": "grants"
             }
           },
