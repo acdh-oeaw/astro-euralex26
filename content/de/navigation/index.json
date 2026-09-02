@@ -89,6 +89,13 @@
               "label": "Workshops",
               "id": "workshops"
             }
+          },
+          {
+            "discriminant": "page",
+            "value": {
+              "label": "Hinweise für Vortragende ",
+              "id": "instructions-for-presenters"
+            }
           }
         ]
       }

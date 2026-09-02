@@ -21,6 +21,14 @@
       },
       "file": "/downloads/files/xxii-euralex-schedule/file.pdf",
       "note": "Programm as of 25.8.26"
+    },
+    {
+      "title": {
+        "name": "EURALEX2026 Book of Abstracts",
+        "slug": "euralex-2026-book-of-abstracts"
+      },
+      "file": "/downloads/files/euralex-2026-book-of-abstracts/file.pdf",
+      "note": "as of 2.9.26"
     }
   ]
 }
