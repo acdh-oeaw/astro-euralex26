@@ -29,6 +29,13 @@
       },
       "file": "/downloads/files/euralex-2026-book-of-abstracts/file.pdf",
       "note": "as of 2.9.26"
+    },
+    {
+      "title": {
+        "name": "GWLN8-programme",
+        "slug": "gwln-8-programme"
+      },
+      "file": "/downloads/files/gwln-8-programme/file.pdf"
     }
   ]
 }
