@@ -1,6 +1,6 @@
 /* @jsxImportSource react */
 
-import { createUrl, createUrlSearchParams, pick } from "@acdh-oeaw/lib";
+import { pick } from "@acdh-oeaw/lib";
 import { fields, NotEditable } from "@keystatic/core";
 import { block, inline, mark, repeating, wrapper } from "@keystatic/core/content-components";
 import {
@@ -19,6 +19,11 @@ import {
 
 import type { Locale } from "@/config/i18n.config";
 import { createAssetPaths } from "@/lib/content/create-asset-paths";
+import {
+	createVideoEmbedUrl,
+	videoProviders,
+	vimeoContentTypes,
+} from "@/lib/content/create-video-embed-url";
 import { withI18nPrefix } from "@/lib/content/i18n";
 import { useObjectUrl } from "@/lib/content/use-object-url";
 import { cn } from "@/lib/styles";
@@ -51,8 +56,6 @@ export const linkCollections = [
 	{ label: "External URL", value: "external" },
 	{ label: "Pages", value: "pages" },
 ] as const;
-
-export const videoProviders = [{ label: "YouTube", value: "youtube" }] as const;
 
 function create(assetPath: `/${string}/`, locale: Locale) {
 	return {
@@ -358,35 +361,54 @@ function create(assetPath: `/${string}/`, locale: Locale) {
 		}),
 		Video: wrapper({
 			label: "Video",
-			description: "A YouTube video.",
+			description: "A YouTube or Vimeo video.",
 			icon: <VideoIcon />,
 			schema: {
-				provider: fields.select({
-					label: "Provider",
-					options: videoProviders,
-					defaultValue: "youtube",
-				}),
-				id: fields.text({
-					label: "Video identifier",
-					validation: { isRequired: true },
-				}),
-				startTime: fields.number({
-					label: "Start time",
-					// validation: { isRequired: false },
-				}),
+				source: fields.conditional(
+					fields.select({
+						label: "Provider",
+						options: videoProviders,
+						defaultValue: "youtube",
+					}),
+					{
+						youtube: fields.object({
+							id: fields.text({
+								label: "Video identifier",
+								validation: { isRequired: true },
+							}),
+							startTime: fields.number({ label: "Start time" }),
+						}),
+						vimeo: fields.object({
+							content: fields.conditional(
+								fields.select({
+									label: "Content type",
+									options: vimeoContentTypes,
+									defaultValue: "video",
+								}),
+								{
+									video: fields.object({
+										id: fields.text({
+											label: "Video identifier",
+											validation: { isRequired: true },
+										}),
+										startTime: fields.number({ label: "Start time" }),
+									}),
+									event: fields.object({
+										id: fields.text({
+											label: "Event identifier",
+											validation: { isRequired: true },
+										}),
+									}),
+								},
+							),
+						}),
+					},
+				),
 			},
 			ContentView(props) {
 				const { children, value } = props;
 
-				const href = String(
-					createUrl({
-						baseUrl: "https://www.youtube-nocookie.com",
-						pathname: `/embed/${value.id}`,
-						searchParams: value.startTime
-							? createUrlSearchParams({ t: value.startTime })
-							: undefined,
-					}),
-				);
+				const href = String(createVideoEmbedUrl(value.source));
 
 				return (
 					<figure>

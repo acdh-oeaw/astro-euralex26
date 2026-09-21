@@ -1,22 +1,14 @@
 ---
-import { createUrl, createUrlSearchParams } from "@acdh-oeaw/lib";
+import { createVideoEmbedUrl, type VideoSource } from "@/lib/content/create-video-embed-url";
 
 interface Props {
-	provider: "youtube";
-	id: string;
-	startTime?: number;
+	source: VideoSource;
 	title?: string;
 }
 
-const { id, startTime, title } = Astro.props;
+const { source, title } = Astro.props;
 
-const href = String(
-	createUrl({
-		baseUrl: "https://www.youtube-nocookie.com",
-		pathname: `/embed/${id}`,
-		searchParams: startTime ? createUrlSearchParams({ t: startTime }) : undefined,
-	}),
-);
+const href = String(createVideoEmbedUrl(source));
 ---
 
 <figure>
