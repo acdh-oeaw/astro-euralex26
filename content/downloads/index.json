@@ -43,6 +43,14 @@
         "slug": "direction-map-to-the-conference-venue"
       },
       "file": "/downloads/files/direction-map-to-the-conference-venue/file.pdf"
+    },
+    {
+      "title": {
+        "name": "EURALEX 2026 schedule",
+        "slug": "euralex-2026-schedule"
+      },
+      "file": "/downloads/files/euralex-2026-schedule/file.pdf",
+      "note": "as of 21.9.26"
     }
   ]
 }
