@@ -51,6 +51,14 @@
       },
       "file": "/downloads/files/euralex-2026-schedule/file.pdf",
       "note": "as of 21.9.26"
+    },
+    {
+      "title": {
+        "name": "EURALEX 2026 programme",
+        "slug": "euralex-2026-programme"
+      },
+      "file": "/downloads/files/euralex-2026-programme/file.pdf",
+      "note": "as of 22.9.26"
     }
   ]
 }
