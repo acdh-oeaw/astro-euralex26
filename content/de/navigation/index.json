@@ -77,6 +77,13 @@
             }
           },
           {
+            "discriminant": "page",
+            "value": {
+              "label": "EURALEX App",
+              "id": "euralex-app"
+            }
+          },
+          {
             "discriminant": "link",
             "value": {
               "label": "Keynotes",
