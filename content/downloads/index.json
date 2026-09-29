@@ -67,6 +67,14 @@
       },
       "file": "/downloads/files/programme-constructicography-in-practice-constructions-challenges-and-opportunities/file.pdf",
       "note": "as of 22.9.26"
-    }
+    },
+		{
+			"title": {
+				"name": "Proceedings Euralex 2026",
+				"slug": "proceedings-euralex-2026"
+			},
+			"file": "/downloads/files/proceedings/EURALEX2026_Proceedings_2026_Revised-2.pdf",
+			"note": "as of 29.9.26"
+		}
   ]
 }
