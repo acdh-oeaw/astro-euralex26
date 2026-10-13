@@ -1,0 +1,20 @@
+---
+import Img from "@/components/content/img.astro";
+
+interface Props {
+	alt: string;
+	license: string;
+	src: string;
+	title: string;
+}
+
+const { alt, license, src, title } = Astro.props;
+---
+
+<figure data-image-slide>
+	<Img alt={alt} src={src} />
+	<figcaption class="grid gap-1">
+		<strong>{title}</strong>
+		<span>{license}</span>
+	</figcaption>
+</figure>

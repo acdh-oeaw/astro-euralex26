@@ -1,0 +1,126 @@
+---
+
+---
+
+<div data-image-slider>
+	<div>
+		<slot />
+	</div>
+	<div data-image-slider-controls hidden>
+		<button aria-label="Previous slide" data-image-slider-previous type="button">
+			<span aria-hidden="true">‹</span>
+		</button>
+		<div aria-label="Choose slide" data-image-slider-indicators role="group"></div>
+		<button aria-label="Next slide" data-image-slider-next type="button">
+			<span aria-hidden="true">›</span>
+		</button>
+	</div>
+</div>
+
+<script>
+	const labels = {
+		de: {
+			choose: "Bild auswählen",
+			next: "Nächstes Bild",
+			previous: "Vorheriges Bild",
+			slide: "Bild",
+		},
+		en: { choose: "Choose slide", next: "Next slide", previous: "Previous slide", slide: "Slide" },
+	};
+
+	for (const slider of document.querySelectorAll<HTMLElement>("[data-image-slider]")) {
+		const slides = [...slider.querySelectorAll<HTMLElement>("[data-image-slide]")];
+		const controls = slider.querySelector<HTMLElement>("[data-image-slider-controls]");
+		const indicators = slider.querySelector<HTMLElement>("[data-image-slider-indicators]");
+		const previous = slider.querySelector<HTMLButtonElement>("[data-image-slider-previous]");
+		const next = slider.querySelector<HTMLButtonElement>("[data-image-slider-next]");
+
+		if (
+			slides.length < 2 ||
+			controls == null ||
+			indicators == null ||
+			previous == null ||
+			next == null
+		) {
+			continue;
+		}
+
+		const locale = document.documentElement.lang.toLowerCase().startsWith("de") ? "de" : "en";
+		const text = labels[locale];
+		let activeIndex = 0;
+
+		slider.querySelector("[data-image-slider-indicators]")?.setAttribute("aria-label", text.choose);
+		previous.setAttribute("aria-label", text.previous);
+		next.setAttribute("aria-label", text.next);
+
+		const indicatorButtons = slides.map((_, index) => {
+			const button = document.createElement("button");
+			button.type = "button";
+			button.setAttribute("aria-label", `${text.slide} ${index + 1}`);
+			button.addEventListener("click", () => showSlide(index));
+			indicators.append(button);
+			return button;
+		});
+
+		function showSlide(index: number) {
+			activeIndex = (index + slides.length) % slides.length;
+			slides.forEach((slide, slideIndex) => {
+				slide.hidden = slideIndex !== activeIndex;
+				indicatorButtons[slideIndex]?.setAttribute(
+					"aria-current",
+					slideIndex === activeIndex ? "true" : "false",
+				);
+			});
+		}
+
+		previous.addEventListener("click", () => showSlide(activeIndex - 1));
+		next.addEventListener("click", () => showSlide(activeIndex + 1));
+		slider.addEventListener("keydown", (event) => {
+			if (event.key === "ArrowLeft") showSlide(activeIndex - 1);
+			if (event.key === "ArrowRight") showSlide(activeIndex + 1);
+		});
+
+		showSlide(0);
+		controls.hidden = false;
+	}
+</script>
+
+<style>
+	[data-image-slider-controls] {
+		display: flex;
+		gap: 1rem;
+		justify-content: center;
+		align-items: center;
+		margin-block-start: 1rem;
+	}
+
+	[data-image-slider-controls] button {
+		min-width: 2.75rem;
+		min-height: 2.75rem;
+		border: 1px solid currentColor;
+		border-radius: 9999px;
+		background: transparent;
+		color: inherit;
+		cursor: pointer;
+	}
+
+	[data-image-slider-indicators] {
+		display: flex;
+		gap: 0.5rem;
+	}
+
+	[data-image-slider-indicators] button {
+		min-width: 1rem;
+		min-height: 1rem;
+		padding: 0;
+	}
+
+	[data-image-slider-indicators] button[aria-current="true"] {
+		background: currentColor;
+	}
+
+	[data-image-slider-controls] button:focus-visible {
+		outline: 2px solid currentColor;
+		outline-offset: 3px;
+	}
+</style>

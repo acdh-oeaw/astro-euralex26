@@ -7,6 +7,8 @@ import Embed from "@/components/content/embed.astro";
 import Figure from "@/components/content/figure.astro";
 import Grid from "@/components/content/grid.astro";
 import GridItem from "@/components/content/grid-item.astro";
+import ImageSlide from "@/components/content/image-slide.astro";
+import ImageSlider from "@/components/content/image-slider.astro";
 import Img from "@/components/content/img.astro";
 import Link from "@/components/content/link.astro";
 import LinkButton from "@/components/content/link-button.astro";
@@ -23,6 +25,8 @@ const components = {
 	Figure,
 	Grid,
 	GridItem,
+	ImageSlide,
+	ImageSlider,
 	img: Img,
 	Link,
 	LinkButton,

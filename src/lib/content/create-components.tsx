@@ -197,6 +197,76 @@ function create(assetPath: `/${string}/`, locale: Locale) {
 				);
 			},
 		}),
+		ImageSlide: wrapper({
+			label: "Image slide",
+			description: "An image and its attribution within an image slider.",
+			icon: <ImageIcon />,
+			forSpecificLocations: true,
+			schema: {
+				src: fields.image({
+					label: "Image",
+					validation: { isRequired: true },
+					...createAssetPaths(assetPath),
+				}),
+				title: fields.text({
+					label: "Title",
+					validation: { isRequired: true },
+				}),
+				license: fields.text({
+					label: "License and attribution",
+					validation: { isRequired: true },
+				}),
+				alt: fields.text({
+					label: "Image description for screen readers",
+					validation: { isRequired: true },
+					multiline: true,
+				}),
+			},
+			ContentView(props) {
+				const { value } = props;
+
+				const contentType = value.src?.extension === "svg" ? "image/svg+xml" : undefined;
+				const src = useObjectUrl(value.src?.data ?? null, contentType);
+
+				if (src == null) {
+					return null;
+				}
+
+				return (
+					<figure>
+						<NotEditable>
+							<img alt={value.alt} src={src} />
+						</NotEditable>
+						<figcaption>
+							<NotEditable>
+								<strong>{value.title}</strong>
+								<br />
+								{value.license}
+							</NotEditable>
+						</figcaption>
+					</figure>
+				);
+			},
+		}),
+		ImageSlider: repeating({
+			label: "Image slider",
+			description: "A manually navigated slider of attributed images.",
+			icon: <ImageIcon />,
+			children: ["ImageSlide"],
+			schema: {},
+			ContentView(props) {
+				const { children } = props;
+
+				return (
+					<div className="grid gap-4 rounded border p-4">
+						<strong>
+							<NotEditable>Image slider</NotEditable>
+						</strong>
+						{children}
+					</div>
+				);
+			},
+		}),
 		Footnote: mark({
 			label: "Footnote",
 			icon: <SuperscriptIcon />,
