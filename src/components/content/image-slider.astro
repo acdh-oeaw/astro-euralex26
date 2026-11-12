@@ -3,7 +3,7 @@
 ---
 
 <div data-image-slider>
-	<div>
+	<div data-image-slider-slides>
 		<slot />
 	</div>
 	<div data-image-slider-controls hidden>
@@ -15,6 +15,7 @@
 			<span aria-hidden="true">›</span>
 		</button>
 	</div>
+	<p aria-live="polite" class="text-center" data-image-slider-counter hidden></p>
 </div>
 
 <script>
@@ -34,13 +35,15 @@
 		const indicators = slider.querySelector<HTMLElement>("[data-image-slider-indicators]");
 		const previous = slider.querySelector<HTMLButtonElement>("[data-image-slider-previous]");
 		const next = slider.querySelector<HTMLButtonElement>("[data-image-slider-next]");
+		const counter = slider.querySelector<HTMLElement>("[data-image-slider-counter]");
 
 		if (
 			slides.length < 2 ||
 			controls == null ||
 			indicators == null ||
 			previous == null ||
-			next == null
+			next == null ||
+			counter == null
 		) {
 			continue;
 		}
@@ -64,6 +67,8 @@
 
 		function showSlide(index: number) {
 			activeIndex = (index + slides.length) % slides.length;
+			if (counter != null)
+				counter.textContent = `${text.slide} ${activeIndex + 1} / ${slides.length}`;
 			slides.forEach((slide, slideIndex) => {
 				slide.hidden = slideIndex !== activeIndex;
 				indicatorButtons[slideIndex]?.setAttribute(
@@ -81,11 +86,27 @@
 		});
 
 		showSlide(0);
+		slider.dataset.imageSliderReady = "";
 		controls.hidden = false;
+		counter.hidden = false;
 	}
 </script>
 
 <style>
+	[data-image-slider-ready] [data-image-slider-slides] {
+		display: grid;
+	}
+
+	[data-image-slider-ready] [data-image-slider-slides] :global([data-image-slide]) {
+		grid-area: 1 / 1;
+		min-width: 0;
+	}
+
+	[data-image-slider-ready] [data-image-slider-slides] :global([data-image-slide][hidden]) {
+		display: block;
+		visibility: hidden;
+	}
+
 	[data-image-slider-controls] {
 		display: flex;
 		gap: 1rem;
@@ -106,7 +127,9 @@
 
 	[data-image-slider-indicators] {
 		display: flex;
+		flex-wrap: wrap;
 		gap: 0.5rem;
+		justify-content: center;
 	}
 
 	[data-image-slider-indicators] button {
