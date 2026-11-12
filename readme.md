@@ -6,7 +6,7 @@ template repository for project websites.
 
 prerequisites:
 
-- [node.js 24.x](https://nodejs.org/en/download)
+- [node.js 26.x](https://nodejs.org/en/download)
 
 > [!TIP]
 >
