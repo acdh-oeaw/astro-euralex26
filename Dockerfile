@@ -6,7 +6,7 @@
 # base
 FROM node:26-alpine AS base
 
-RUN corepack enable
+RUN npm install --global corepack@0.36.0 && corepack enable
 
 RUN mkdir /app && chown -R node:node /app
 WORKDIR /app
