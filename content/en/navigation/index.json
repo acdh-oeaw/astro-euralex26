@@ -103,6 +103,13 @@
               "label": "Instructions for Presenters",
               "id": "instructions-for-presenters"
             }
+          },
+          {
+            "discriminant": "page",
+            "value": {
+              "label": "Fotos",
+              "id": "fotos"
+            }
           }
         ]
       }
