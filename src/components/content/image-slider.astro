@@ -29,67 +29,76 @@
 		en: { choose: "Choose slide", next: "Next slide", previous: "Previous slide", slide: "Slide" },
 	};
 
-	for (const slider of document.querySelectorAll<HTMLElement>("[data-image-slider]")) {
-		const slides = [...slider.querySelectorAll<HTMLElement>("[data-image-slide]")];
-		const controls = slider.querySelector<HTMLElement>("[data-image-slider-controls]");
-		const indicators = slider.querySelector<HTMLElement>("[data-image-slider-indicators]");
-		const previous = slider.querySelector<HTMLButtonElement>("[data-image-slider-previous]");
-		const next = slider.querySelector<HTMLButtonElement>("[data-image-slider-next]");
-		const counter = slider.querySelector<HTMLElement>("[data-image-slider-counter]");
+	function initializeImageSliders() {
+		for (const slider of document.querySelectorAll<HTMLElement>("[data-image-slider]")) {
+			if (slider.hasAttribute("data-image-slider-ready")) continue;
 
-		if (
-			slides.length < 2 ||
-			controls == null ||
-			indicators == null ||
-			previous == null ||
-			next == null ||
-			counter == null
-		) {
-			continue;
-		}
+			const slides = [...slider.querySelectorAll<HTMLElement>("[data-image-slide]")];
+			const controls = slider.querySelector<HTMLElement>("[data-image-slider-controls]");
+			const indicators = slider.querySelector<HTMLElement>("[data-image-slider-indicators]");
+			const previous = slider.querySelector<HTMLButtonElement>("[data-image-slider-previous]");
+			const next = slider.querySelector<HTMLButtonElement>("[data-image-slider-next]");
+			const counter = slider.querySelector<HTMLElement>("[data-image-slider-counter]");
 
-		const locale = document.documentElement.lang.toLowerCase().startsWith("de") ? "de" : "en";
-		const text = labels[locale];
-		let activeIndex = 0;
+			if (
+				slides.length < 2 ||
+				controls == null ||
+				indicators == null ||
+				previous == null ||
+				next == null ||
+				counter == null
+			) {
+				continue;
+			}
 
-		slider.querySelector("[data-image-slider-indicators]")?.setAttribute("aria-label", text.choose);
-		previous.setAttribute("aria-label", text.previous);
-		next.setAttribute("aria-label", text.next);
+			const locale = document.documentElement.lang.toLowerCase().startsWith("de") ? "de" : "en";
+			const text = labels[locale];
+			let activeIndex = 0;
 
-		const indicatorButtons = slides.map((_, index) => {
-			const button = document.createElement("button");
-			button.type = "button";
-			button.setAttribute("aria-label", `${text.slide} ${index + 1}`);
-			button.addEventListener("click", () => showSlide(index));
-			indicators.append(button);
-			return button;
-		});
+			slider
+				.querySelector("[data-image-slider-indicators]")
+				?.setAttribute("aria-label", text.choose);
+			previous.setAttribute("aria-label", text.previous);
+			next.setAttribute("aria-label", text.next);
 
-		function showSlide(index: number) {
-			activeIndex = (index + slides.length) % slides.length;
-			if (counter != null)
-				counter.textContent = `${text.slide} ${activeIndex + 1} / ${slides.length}`;
-			slides.forEach((slide, slideIndex) => {
-				slide.hidden = slideIndex !== activeIndex;
-				indicatorButtons[slideIndex]?.setAttribute(
-					"aria-current",
-					slideIndex === activeIndex ? "true" : "false",
-				);
+			const indicatorButtons = slides.map((_, index) => {
+				const button = document.createElement("button");
+				button.type = "button";
+				button.setAttribute("aria-label", `${text.slide} ${index + 1}`);
+				button.addEventListener("click", () => showSlide(index));
+				indicators.append(button);
+				return button;
 			});
+
+			function showSlide(index: number) {
+				activeIndex = (index + slides.length) % slides.length;
+				if (counter != null)
+					counter.textContent = `${text.slide} ${activeIndex + 1} / ${slides.length}`;
+				slides.forEach((slide, slideIndex) => {
+					slide.hidden = slideIndex !== activeIndex;
+					indicatorButtons[slideIndex]?.setAttribute(
+						"aria-current",
+						slideIndex === activeIndex ? "true" : "false",
+					);
+				});
+			}
+
+			previous.addEventListener("click", () => showSlide(activeIndex - 1));
+			next.addEventListener("click", () => showSlide(activeIndex + 1));
+			slider.addEventListener("keydown", (event) => {
+				if (event.key === "ArrowLeft") showSlide(activeIndex - 1);
+				if (event.key === "ArrowRight") showSlide(activeIndex + 1);
+			});
+
+			showSlide(0);
+			slider.dataset.imageSliderReady = "";
+			controls.hidden = false;
+			counter.hidden = false;
 		}
-
-		previous.addEventListener("click", () => showSlide(activeIndex - 1));
-		next.addEventListener("click", () => showSlide(activeIndex + 1));
-		slider.addEventListener("keydown", (event) => {
-			if (event.key === "ArrowLeft") showSlide(activeIndex - 1);
-			if (event.key === "ArrowRight") showSlide(activeIndex + 1);
-		});
-
-		showSlide(0);
-		slider.dataset.imageSliderReady = "";
-		controls.hidden = false;
-		counter.hidden = false;
 	}
+
+	document.addEventListener("astro:page-load", initializeImageSliders);
+	initializeImageSliders();
 </script>
 
 <style>
