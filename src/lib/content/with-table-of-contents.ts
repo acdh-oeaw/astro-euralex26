@@ -56,15 +56,13 @@ export function withTableOfContents() {
 					previous.children ??= [];
 					parents.push(previous);
 				} else if (heading.depth < previous.depth) {
-					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 					while (parents.at(-1)!.depth >= heading.depth) {
 						parents.pop();
 					}
 				}
 
-				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 				const parent = parents.at(-1)!;
-				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
 				parent.children!.push(heading);
 				previous = heading;
 			});

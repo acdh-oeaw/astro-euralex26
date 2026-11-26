@@ -17,9 +17,7 @@ const isDownloadLink = download != null;
 const localisedHref = isDownloadLink
 	? href
 	: typeof href === "string" && href.startsWith("/")
-		? withBasePath(
-				"/" + (locale ?? Astro.currentLocale ?? defaultLocale) + ensureTrailingSlash(href),
-			)
+		? withBasePath(`/${locale ?? Astro.currentLocale ?? defaultLocale}${ensureTrailingSlash(href)}`)
 		: href;
 const pathname = localisedHref instanceof URL ? localisedHref.pathname : localisedHref;
 const isCurrent = pathname === Astro.url.pathname;

@@ -24,13 +24,13 @@ ingress:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
     traefik.ingress.kubernetes.io/router.middlewares: kube-system-redirect-https@kubernetescrd,kube-system-compress@kubernetescrd
 livenessProbe:
-  path: "/"
+  path: "/health"
   initialDelaySeconds: 15
   timeoutSeconds: 15
   scheme: "HTTP"
   probeType: "httpGet"
 readinessProbe:
-  path: "/"
+  path: "/health"
   initialDelaySeconds: 5
   timeoutSeconds: 3
   scheme: "HTTP"

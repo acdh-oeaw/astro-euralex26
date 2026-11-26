@@ -1,16 +1,13 @@
-# website template
-
-template repository for project websites.
+# EURALEX 2026 website
 
 ## how to run
 
-prerequisites:
+Install [Node.js 26](https://nodejs.org/en/download) and the pnpm version pinned in
+[`package.json`](./package.json).
 
-- [node.js 26.x](https://nodejs.org/en/download)
-
-> [!TIP]
->
-> you can use `pnpm` to install the required node.js version with `pnpm env use 24 --global`
+```bash
+npm install --global "$(node -p 'require("./package.json").packageManager')"
+```
 
 set required environment variables in `.env.local`:
 
@@ -18,14 +15,9 @@ set required environment variables in `.env.local`:
 cp .env.local.example .env.local
 ```
 
-also, set environment variables required by [validation](./.github/workflows/validate.yml) and
-[deployment](./.github/workflows/build-deploy.yml) github actions. use
-["variables"](https://github.com/acdh-oeaw/template-website-astro/settings/variables/actions) for
-every environment variable prefixed with `PUBLIC_`, and
-["secrets"](https://github.com/acdh-oeaw/template-website-astro/settings/secrets/actions) for all
-others.
-
-the default template accepts the following variables:
+The [validation](./.github/workflows/validate.yaml) and
+[deployment](./.github/workflows/build-deploy.yaml) workflows use GitHub Actions variables for
+public build settings.
 
 - `PUBLIC_REDMINE_ID` (required): service issue for this application in the acdh-ch
   [redmine](https://redmine.acdh.oeaw.ac.at) issue tracker.
@@ -39,15 +31,7 @@ the default template accepts the following variables:
 - `PUBLIC_GOOGLE_SITE_VERIFICATION` (optional): set this to verify site ownership for google search
   console.
 - `ENV_VALIDATION` (optional): whether environment variables should be validated. supported values
-  are "disabled", "enabled" and "public" (only validate public variables, which can be useful in a
-  docker build context to avoid having to pass secrets to `docker build`), defaults to "enabled".
-
-the email service can be configured with these environment variables:
-
-- `EMAIL_CONTACT_ADDRESS` (required): email will be sent to this address.
-- `EMAIL_SMTP_SERVER` and `EMAIL_SMTP_PORT` (required): which smtp server to use.
-- `EMAIL_SMTP_USERNAME` and `EMAIL_SMTP_PASSWORD` (optional): not needed on acdh-ch infrastructure,
-  can be useful for testing with e.e. <https://ethereal.email>.
+  are "disabled", "enabled" and "public", defaulting to "enabled".
 
 when adding new environment variables, don't forget to add them to `.env.local.example` as well.
 
@@ -56,6 +40,9 @@ install dependencies:
 ```bash
 pnpm install
 ```
+
+Use `pnpm format:check` for Oxfmt and `pnpm lint:check` for Oxlint and Stylelint. The install step
+sets up Lefthook to lint and format staged files before each commit.
 
 run a development server on <http://localhost:3000>:
 
@@ -70,16 +57,25 @@ pnpm run dev
 
 ## how to edit content
 
-use the admin ui at when developing locally <http://localhost:3000/admin> (this will save changes to
-the filesystem), or at <https://template-website-astro.acdh-ch-dev.oeaw.ac.at/admin> (this will
-commit changes to the github repository).
+Run `pnpm dev` and open <http://localhost:3000/admin>. Keystatic saves edits to the local checkout.
+Commit and push the content changes to publish them.
+
+## how to preview the production build
+
+```bash
+pnpm build
+pnpm start
+```
+
+Astro generates the public pages in `dist/` and Pagefind writes the search index to
+`dist/pagefind/`. The production image serves those files with Caddy on port 3000.
 
 ## how to deploy
 
 - ask a sysadmin to create a new acdh-ch kubernetes project.
 - create a new namespace in that project via [rancher](https://rancher.acdh-dev.oeaw.ac.at), and set
   the `KUBE_NAMESPACE` github variable to that namespace.
-- adjust the [`app_name`](./.github/workflows/build-deploy.yml#L36), which will be the name of the
+- adjust the [`app_name`](./.github/workflows/build-deploy.yaml#L36), which will be the name of the
   deployment in the above namespace.
 - set the `PUBLIC_URL` github variable to the application's public url (e.g.
   "https://my-app.acdh-ch-dev.oeaw.ac.at"), and set the `KUBE_INGRESS_BASE_DOMAIN` to the public
@@ -89,29 +85,12 @@ commit changes to the github repository).
   [redmine](https://redmine.acdh.oeaw.ac.at) issue tracker, and set the `SERVICE_ID` github variable
   to the issue number. this should match the `PUBLIC_REDMINE_ID` variable in your `.env.local` file.
 - ensure required build args (prefixed with `PUBLIC_`) are referenced in both the
-  [`Dockerfile`](./Dockerfile), as well as the [validation](./.github/workflows/validate.yml) and
-  [deployment](./.github/workflows/build-deploy.yml) pipelines, and set as
+  [`Dockerfile`](./Dockerfile), as well as the [validation](./.github/workflows/validate.yaml) and
+  [deployment](./.github/workflows/build-deploy.yaml) pipelines, and set as
   [github variables](https://github.com/acdh-oeaw/template-website-astro/settings/variables/actions).
-- ensure required runtime environment variables are referenced in the
-  [validation](./.github/workflows/validate.yml) and
-  [deployment](./.github/workflows/build-deploy.yml) pipelines, and set as
-  [github secrets](https://github.com/acdh-oeaw/template-website-astro/settings/secrets/actions).
-  github secrets need to be prefixed with `K8S_SECRET_` to be automatically copied to the runtime
-  environment. in case you need secrets in the docker build context, you can
-  [mount a secret in the Dockerfile](https://docs.docker.com/build/building/secrets/).
 - ensure both the github repository, as well as the
   [package registry](https://github.com/orgs/acdh-oeaw/packages/container/my-app/settings) is set to
   public.
 
 if everything is set up correctly, every git push to the `main` branch will create a new deployment
 if the validation pipeline passes.
-
-you can reference the [template repository](https://github.com/acdh-oeaw/template-website-astro) for
-a working setup.
-
-> [!NOTE]
->
-> by default, this will deploy a `node` server, which will serve pre-rendered pages, assets, and api
-> routes. if you prefer a truly static build, which uses `caddy` as a fileserver, use the
-> `Dockerfile.static` instead, and remove `output: "hybrid"` from `astro.config.ts`. you will also
-> need to change the `generate:search-index` script to `pagefind --site ./dist/`.

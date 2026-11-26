@@ -20,7 +20,6 @@ export function createCollectionResource<T extends Collections>(name: T, locale:
 	assert(collectionConfig.path);
 
 	function baseUrl(id: string) {
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		return pathToFileURL(join(process.cwd(), collectionConfig.path!.replace(/\*+/, id)));
 	}
 
@@ -69,7 +68,6 @@ export function createSingletonResource<T extends Singletons>(name: T, locale: L
 	assert(singletonConfig.path);
 
 	function baseUrl() {
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		return pathToFileURL(join(process.cwd(), singletonConfig.path!));
 	}
 

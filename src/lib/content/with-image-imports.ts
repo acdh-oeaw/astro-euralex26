@@ -23,7 +23,7 @@ export function withImageImports() {
 			if (!imports.has(path)) {
 				imports.set(path, `__image${String(imports.size)}__`);
 			}
-			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
 			return imports.get(path)!;
 		}
 

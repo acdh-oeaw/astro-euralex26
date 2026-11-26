@@ -4,7 +4,6 @@ import { createAssetPaths } from "@/lib/content/create-asset-paths";
 import { createCollection } from "@/lib/content/create-collection";
 import { createComponents, headingLevels } from "@/lib/content/create-components";
 import { createCollectionPaths } from "@/lib/content/create-paths";
-// import { createPreviewUrl } from "@/lib/content/create-preview-url";
 
 const pages = createCollection((locale) => {
 	const { assetPath, contentPath } = createCollectionPaths("/pages/", locale);
@@ -14,7 +13,6 @@ const pages = createCollection((locale) => {
 		path: contentPath,
 		slugField: "title",
 		format: { contentField: "content" },
-		// previewUrl: createPreviewUrl("/{slug}"),
 		entryLayout: "content",
 		columns: ["title"],
 		schema: {
@@ -54,7 +52,6 @@ const keynotes = createCollection((locale) => {
 		path: contentPath,
 		slugField: "title",
 		format: { contentField: "abstract" },
-		// previewUrl: createPreviewUrl("/{slug}"),
 		entryLayout: "content",
 		columns: ["title"],
 		schema: {
@@ -129,7 +126,6 @@ const days = createCollection((locale) => {
 		path: contentPath,
 		slugField: "title",
 		format: { contentField: "content" },
-		// previewUrl: createPreviewUrl("/{slug}"),
 		entryLayout: "content",
 		columns: ["title"],
 		schema: {

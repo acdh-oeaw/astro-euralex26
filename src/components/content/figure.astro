@@ -11,11 +11,9 @@ const { alt = "", src } = Astro.props;
 
 <figure>
 	<Img alt={alt} src={src} />
-	{
-		Astro.slots.has("default") ? (
-			<figcaption>
-				<slot />
-			</figcaption>
-		) : null
-	}
+	{Astro.slots.has("default") ? (
+		<figcaption>
+			<slot />
+		</figcaption>
+	) : null}
 </figure>

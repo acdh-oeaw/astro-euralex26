@@ -1,5 +1,4 @@
 import type { CompileOptions } from "@mdx-js/mdx";
-import withSyntaxHighlighter from "@shikijs/rehype";
 import type { ElementContent } from "hast";
 import withHeadingIds from "rehype-slug";
 import withFrontmatter from "remark-frontmatter";
@@ -9,7 +8,6 @@ import withTypographicQuotes from "remark-smartypants";
 import type { Options as TypographicOptions } from "retext-smartypants";
 
 import type { Locale } from "@/config/i18n.config";
-import { config as syntaxHighlighterConfig } from "@/config/syntax-highlighter.config";
 import { withCustomHeadingIds } from "@/lib/content/with-custom-heading-ids";
 import { withFootnotes } from "@/lib/content/with-footnotes";
 import { withIframeTitles } from "@/lib/content/with-iframe-titles";
@@ -74,7 +72,6 @@ export async function createMdxConfig(locale: Locale): Promise<CompileOptions> {
 			withTableOfContents,
 			withMdxTableOfContents,
 			withIframeTitles,
-			[withSyntaxHighlighter, syntaxHighlighterConfig],
 		],
 	};
 

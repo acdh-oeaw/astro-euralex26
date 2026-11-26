@@ -25,4 +25,6 @@ const href = isDownloadLink
 			: `/${item.discriminant}/${item.value}`;
 ---
 
-<Anchor {...rest} download={isDownloadLink} href={href}><slot /></Anchor>
+<Anchor {...rest} download={isDownloadLink} href={href}>
+	<slot />
+</Anchor>

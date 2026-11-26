@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-
 import Callout from "@/components/content/callout.astro";
 import Disclosure from "@/components/content/disclosure.astro";
 import DownloadButton from "@/components/content/download-button.astro";

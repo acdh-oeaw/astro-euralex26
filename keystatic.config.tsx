@@ -3,7 +3,6 @@
 import { config } from "@keystatic/core";
 
 import { Logo } from "@/components/content/logo";
-import { env } from "@/config/env.config";
 import { locales } from "@/config/i18n.config";
 import { collections } from "@/lib/content/collections";
 import { downloads } from "@/lib/content/downloads";
@@ -16,21 +15,7 @@ export default config({
 		...i18n(singletons),
 		downloads,
 	},
-	storage:
-		env.PUBLIC_KEYSTATIC_MODE === "github" &&
-		env.PUBLIC_KEYSTATIC_GITHUB_REPO_OWNER &&
-		env.PUBLIC_KEYSTATIC_GITHUB_REPO_NAME
-			? {
-					kind: "github",
-					repo: {
-						owner: env.PUBLIC_KEYSTATIC_GITHUB_REPO_OWNER,
-						name: env.PUBLIC_KEYSTATIC_GITHUB_REPO_NAME,
-					},
-					branchPrefix: "content/",
-				}
-			: {
-					kind: "local",
-				},
+	storage: { kind: "local" },
 	ui: {
 		brand: {
 			mark() {

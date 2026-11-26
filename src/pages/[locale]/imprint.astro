@@ -1,6 +1,4 @@
 ---
-import { request } from "@acdh-oeaw/lib";
-
 import MainContent from "@/components/main-content.astro";
 import PageSection from "@/components/page-section.astro";
 import PageTitle from "@/components/page-title.astro";
@@ -23,7 +21,10 @@ const documentTitle = t("ImprintPage.meta.title");
 const title = t("ImprintPage.title");
 
 const imprintUrl = createImprintUrl(locale);
-const imprintHtml = await request(imprintUrl, { responseType: "text" });
+const response = await fetch(imprintUrl);
+if (!response.ok)
+	throw new Error(`Failed to fetch the ${locale} imprint (HTTP ${String(response.status)}).`);
+const imprintHtml = await response.text();
 ---
 
 <PageLayout locale={locale} title={documentTitle}>
