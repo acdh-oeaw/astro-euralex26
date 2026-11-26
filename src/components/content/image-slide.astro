@@ -13,13 +13,31 @@ const { alt, license, src, title } = Astro.props;
 
 <figure data-image-slide>
 	<div data-image-frame>
-		<Img alt={alt} src={src} />
+		<template data-slide-image>
+			<Img alt={alt} src={src} />
+		</template>
+		<noscript>
+			<Img alt={alt} src={src} />
+		</noscript>
 	</div>
 	<figcaption class="grid gap-1">
 		<strong>{title}</strong>
 		<span>{license}</span>
 	</figcaption>
 </figure>
+
+<script>
+	function loadStandaloneImages() {
+		for (const template of document.querySelectorAll<HTMLTemplateElement>(
+			"template[data-slide-image]",
+		)) {
+			if (!template.closest("[data-image-slider]")) template.replaceWith(template.content);
+		}
+	}
+
+	document.addEventListener("astro:page-load", loadStandaloneImages);
+	loadStandaloneImages();
+</script>
 
 <style>
 	[data-image-frame] {

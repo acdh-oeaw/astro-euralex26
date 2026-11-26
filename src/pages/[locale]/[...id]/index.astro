@@ -49,9 +49,11 @@ const heroImage = image;
 			/>
 			<div class="absolute inset-0 bg-gradient-to-b from-black/40 to-black/70" />
 			<div class="absolute inset-x-0 bottom-0 px-6 py-8 text-white md:px-12">
-				<PageTitle class="text-4xl text-white md:text-6xl">{title}</PageTitle>
+				<PageTitle class="text-4xl text-white md:text-6xl md:leading-none">{title}</PageTitle>
 				{summary ? (
-					<p class="mt-3 max-w-3xl text-base leading-relaxed text-white/85 md:text-lg">{summary}</p>
+					<p class="mt-3 max-w-3xl text-base leading-relaxed text-white/85 md:text-lg md:leading-7">
+						{summary}
+					</p>
 				) : null}
 			</div>
 		</div>

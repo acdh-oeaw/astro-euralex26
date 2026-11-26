@@ -2,26 +2,29 @@
 import type { HTMLAttributes } from "astro/types";
 import { Image } from "astro:assets";
 
-import { getImageFormat, getImageImport } from "@/lib/get-image-import";
+import { getImageFormat, getLocalImageImport } from "@/lib/get-image-import";
 
 interface Props extends HTMLAttributes<"img"> {}
 
-const { title = "", alt = "", src, width, height, ...rest } = Astro.props;
+const { title = "", alt = "", src, width, height, sizes, ...rest } = Astro.props;
+const optimized = src?.startsWith("/") ? (await getLocalImageImport(src)).default : undefined;
+const format = getImageFormat(src);
 ---
 
 {src != null ? (
-	src.startsWith("/") ? (
+	optimized ? (
 		<Image
 			{...rest}
 			title={title}
 			alt={alt}
-			src={getImageImport(src)}
-			widths={[640, 960, 1280, 1600]}
-			sizes="(max-width: 768px) 100vw, (max-width: 1280px) min(100vw, 80rem), 1280px"
-			format={getImageFormat(src)}
+			src={optimized}
+			width={Math.min(optimized.width, 1600)}
+			widths={[400, 800, 1024, 1600]}
+			sizes={sizes ?? "min(calc(100vw - 2rem), 62rem)"}
+			format={format}
 			quality={82}
 		/>
 	) : (
-		<img {...rest} title={title} alt={alt} height={height} src={src} width={width} />
+		<img {...rest} title={title} alt={alt} height={height} sizes={sizes} src={src} width={width} />
 	)
 ) : null}

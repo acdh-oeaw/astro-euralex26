@@ -19,10 +19,14 @@ for (const locale of ["en", "de"] as const) {
 		const next = firstSlider.getByRole("button", { name: labels.next });
 		const counter = firstSlider.locator("[data-image-slider-counter]");
 		const slideCount = await firstSlider.locator("[data-image-slide]").count();
+		const slides = firstSlider.locator("[data-image-slide]");
 
 		await expect(counter).toHaveText(`${labels.slide} 1 / ${String(slideCount)}`);
+		await expect(slides.nth(1).locator("img")).toHaveCount(0);
 		await next.click();
 		await expect(counter).toHaveText(`${labels.slide} 2 / ${String(slideCount)}`);
+		await expect(slides.nth(0).locator("img")).toBeHidden();
+		await expect(slides.nth(1).locator("img")).toBeVisible();
 
 		await page.evaluate(() => {
 			Object.defineProperty(window, "photoSliderNavigationMarker", { value: true });
@@ -53,3 +57,15 @@ for (const locale of ["en", "de"] as const) {
 		await expect(counter).toHaveText(`${labels.slide} 2 / ${String(slideCount)}`);
 	});
 }
+
+test.describe("photos without JavaScript", () => {
+	test.use({ javaScriptEnabled: false });
+
+	test("renders each photo in the gallery", async ({ page }) => {
+		await page.goto("/en/fotos/");
+
+		const slides = page.locator("[data-image-slider] [data-image-slide]");
+		await expect(slides.first().locator("img")).toBeVisible();
+		await expect(slides.last().locator("img")).toBeVisible();
+	});
+});

@@ -11,6 +11,10 @@ export function getImageImport(path: string) {
 	/** Upstream type issue. */
 	if (!path.startsWith("/")) return path as any;
 
+	return getLocalImageImport(path);
+}
+
+export function getLocalImageImport(path: string) {
 	const publicPath = join("/public", path);
 	const image = images[publicPath];
 	assert(image, `Missing image "${publicPath}".`);
