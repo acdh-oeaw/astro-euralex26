@@ -78,8 +78,8 @@ jobs:
         uses: actions/cache@v6
         with:
           path: node_modules/.astro/
-          key: ${{ runner.os }}-astro-20.x-${{ github.run_id }}
-          restore-keys: ${{ runner.os }}-astro-20.x
+          key: ${{ runner.os }}-astro-26-${{ github.run_id }}
+          restore-keys: ${{ runner.os }}-astro-26
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
@@ -104,6 +104,12 @@ jobs:
           #   type=semver,pattern={{major}}.{{minor}}
           #   type=raw,value=latest
 
+      - name: Read pnpm version
+        id: pnpm
+        run: |
+          pnpm_version=$(jq -er '.devEngines.packageManager.version' package.json)
+          echo "version=$pnpm_version" >> "$GITHUB_OUTPUT"
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v7
         with:
@@ -112,21 +118,14 @@ jobs:
           tags: "${{ steps.meta.outputs.tags }}"
           labels: "${{ steps.meta.outputs.labels }}"
           build-args: |
+            "PNPM_VERSION=${{ steps.pnpm.outputs.version }}"
             "PUBLIC_APP_BASE_PATH=${{ vars.PUBLIC_APP_BASE_PATH }}"
             "PUBLIC_APP_BASE_URL=${{ needs.vars.outputs.public_url }}"
             "PUBLIC_BOTS=${{ vars.PUBLIC_BOTS }}"
             "PUBLIC_GOOGLE_SITE_VERIFICATION=${{ vars.PUBLIC_GOOGLE_SITE_VERIFICATION }}"
-            "PUBLIC_KEYSTATIC_GITHUB_APP_SLUG=${{ vars.PUBLIC_KEYSTATIC_GITHUB_APP_SLUG }}"
-            "PUBLIC_KEYSTATIC_GITHUB_REPO_NAME=${{ vars.PUBLIC_KEYSTATIC_GITHUB_REPO_NAME }}"
-            "PUBLIC_KEYSTATIC_GITHUB_REPO_OWNER=${{ vars.PUBLIC_KEYSTATIC_GITHUB_REPO_OWNER }}"
-            "PUBLIC_KEYSTATIC_MODE=${{ vars.PUBLIC_KEYSTATIC_MODE }}"
             "PUBLIC_MATOMO_BASE_URL=${{ vars.PUBLIC_MATOMO_BASE_URL }}"
             "PUBLIC_MATOMO_ID=${{ vars.PUBLIC_MATOMO_ID }}"
             "PUBLIC_REDMINE_ID=${{ vars.SERVICE_ID }}"
-          secrets: |
-            "KEYSTATIC_GITHUB_CLIENT_ID=${{ secrets.K8S_SECRET_KEYSTATIC_GITHUB_CLIENT_ID }}"
-            "KEYSTATIC_GITHUB_CLIENT_SECRET=${{ secrets.K8S_SECRET_KEYSTATIC_GITHUB_CLIENT_SECRET }}"
-            "KEYSTATIC_SECRET=${{ secrets.K8S_SECRET_KEYSTATIC_SECRET }}"
           cache-from: type=gha
           cache-to: type=gha,mode=max
 

@@ -3,7 +3,6 @@ import { createUrl } from "@acdh-oeaw/lib";
 import { defaultLocale, locales } from "@/config/i18n.config";
 import { expect, test } from "~/e2e/lib/test";
 
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const baseUrl = process.env.PUBLIC_APP_BASE_URL!;
 
 test.describe("app", () => {
@@ -114,7 +113,7 @@ test.describe("app", () => {
 		expect(status).toEqual(200);
 	});
 
-	test.describe("should set color mode according to system preference", () => {
+	test.describe("color mode with no browser preference", () => {
 		test.use({ colorScheme: "no-preference" });
 
 		test("with no preference", async ({ createIndexPage }) => {
@@ -124,7 +123,7 @@ test.describe("app", () => {
 		});
 	});
 
-	test.describe("should set color mode according to system preference", () => {
+	test.describe("color mode with light preference", () => {
 		test.use({ colorScheme: "light" });
 
 		test("in light mode", async ({ createIndexPage }) => {
@@ -134,7 +133,7 @@ test.describe("app", () => {
 		});
 	});
 
-	test.describe("should set color mode according to system preference", () => {
+	test.describe("color mode with dark preference", () => {
 		test.use({ colorScheme: "dark" });
 
 		test("in dark mode", async ({ createIndexPage }) => {

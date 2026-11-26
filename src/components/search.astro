@@ -94,7 +94,7 @@ const closeDialog = t("Search.close-dialog");
 					new PagefindUI({
 						element: dialogSearchResults,
 						baseUrl: import.meta.env.BASE_URL,
-						bundlePath: import.meta.env.BASE_URL.replace(/\/$/, "") + "/pagefind/",
+						bundlePath: `${import.meta.env.BASE_URL.replace(/\/$/, "")}/pagefind/`,
 						showImages: false,
 						showSubResults: true,
 					});
@@ -107,6 +107,8 @@ const closeDialog = t("Search.close-dialog");
 </script>
 
 <style is:global>
+	@reference "../styles/tailwind.css";
+
 	site-search {
 		display: contents;
 	}

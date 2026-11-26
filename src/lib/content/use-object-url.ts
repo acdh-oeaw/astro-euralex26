@@ -5,14 +5,14 @@ export function useObjectUrl(data: Uint8Array | null, contentType: string | unde
 	const [url, setUrl] = useState<string | null>(null);
 
 	useEffect(() => {
-		if (data == null) {
-			setUrl(null);
-			return undefined;
-		}
-
-		const url = URL.createObjectURL(new Blob([new Uint8Array(data)], { type: contentType }));
+		const url =
+			data == null
+				? null
+				: URL.createObjectURL(new Blob([new Uint8Array(data)], { type: contentType }));
+		// oxlint-disable-next-line react/set-state-in-effect -- Publish the object URL created by this effect.
 		setUrl(url);
 
+		if (url == null) return undefined;
 		return () => {
 			URL.revokeObjectURL(url);
 		};

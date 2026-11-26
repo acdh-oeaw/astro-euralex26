@@ -1,5 +1,5 @@
 ---
-import Link from "@/components/content/link.astro";
+import ContentLink from "@/components/content/link.astro";
 import type { linkCollections } from "@/lib/content/create-components";
 
 type LinkCollection = (typeof linkCollections)[number]["value"];
@@ -16,10 +16,10 @@ const { item, label } = Astro.props;
 ---
 
 <div class="flex">
-	<Link
+	<ContentLink
 		class="inline-block rounded-full bg-east-bay-600 px-4 py-2 text-center text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-east-bay-500"
 		item={item}
 	>
 		{label}
-	</Link>
+	</ContentLink>
 </div>

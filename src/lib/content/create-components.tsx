@@ -12,7 +12,6 @@ import {
 	ImageIcon,
 	InfoIcon,
 	LinkIcon,
-	// ListIcon,
 	SuperscriptIcon,
 	VideoIcon,
 } from "lucide-react";

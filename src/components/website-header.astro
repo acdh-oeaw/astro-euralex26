@@ -1,6 +1,6 @@
 ---
 import { Image } from "astro:assets";
-import logoLight from "public/EURALEX_Logo_2026_openbook_nightlight_blackfont.png";
+import logoLight from "~/public/EURALEX_Logo_2026_openbook_nightlight_blackfont.png";
 
 import LocaleSwitcher from "@/components/locale-switcher.astro";
 import MobileNav from "@/components/navigation/mobile-nav.astro";
@@ -34,82 +34,80 @@ const navigation = await createSingletonResource("navigation", locale).read();
 			</NavMenuLink>
 
 			<ul class="hidden flex-wrap items-center gap-x-2 text-2xl font-bold lg:flex" role="list">
-				{
-					navigation.data.links.map((item) => {
-						switch (item.discriminant) {
-							case "link": {
-								const { label, href } = item.value;
+				{navigation.data.links.map((item) => {
+					switch (item.discriminant) {
+						case "link": {
+							const { label, href } = item.value;
 
-								return (
-									<li>
-										<NavMenuLink href={href}>{label}</NavMenuLink>
-									</li>
-								);
-							}
-
-							case "page": {
-								const { id, label } = item.value;
-
-								return (
-									<li>
-										<NavMenuLink href={`/${id}`}>{label}</NavMenuLink>
-									</li>
-								);
-							}
-
-							case "menu": {
-								const { label, links } = item.value;
-
-								return (
-									<li>
-										<NavMenu>
-											<NavMenuTrigger>{label}</NavMenuTrigger>
-											<NavMenuPopover>
-												<ul role="list">
-													{links.map((link) => {
-														switch (link.discriminant) {
-															case "link": {
-																const { label, href } = link.value;
-
-																return (
-																	<li>
-																		<NavMenuItem href={href}>{label}</NavMenuItem>
-																	</li>
-																);
-															}
-
-															case "page": {
-																const { id, label } = link.value;
-
-																return (
-																	<li>
-																		<NavMenuItem href={`/${id}`}>{label}</NavMenuItem>
-																	</li>
-																);
-															}
-
-															case "separator": {
-																return <hr />;
-															}
-
-															default: {
-																return null;
-															}
-														}
-													})}
-												</ul>
-											</NavMenuPopover>
-										</NavMenu>
-									</li>
-								);
-							}
-
-							default: {
-								return null;
-							}
+							return (
+								<li>
+									<NavMenuLink href={href}>{label}</NavMenuLink>
+								</li>
+							);
 						}
-					})
-				}
+
+						case "page": {
+							const { id, label } = item.value;
+
+							return (
+								<li>
+									<NavMenuLink href={`/${id}`}>{label}</NavMenuLink>
+								</li>
+							);
+						}
+
+						case "menu": {
+							const { label, links } = item.value;
+
+							return (
+								<li>
+									<NavMenu>
+										<NavMenuTrigger>{label}</NavMenuTrigger>
+										<NavMenuPopover>
+											<ul role="list">
+												{links.map((link) => {
+													switch (link.discriminant) {
+														case "link": {
+															const { label, href } = link.value;
+
+															return (
+																<li>
+																	<NavMenuItem href={href}>{label}</NavMenuItem>
+																</li>
+															);
+														}
+
+														case "page": {
+															const { id, label } = link.value;
+
+															return (
+																<li>
+																	<NavMenuItem href={`/${id}`}>{label}</NavMenuItem>
+																</li>
+															);
+														}
+
+														case "separator": {
+															return <hr />;
+														}
+
+														default: {
+															return null;
+														}
+													}
+												})}
+											</ul>
+										</NavMenuPopover>
+									</NavMenu>
+								</li>
+							);
+						}
+
+						default: {
+							return null;
+						}
+					}
+				})}
 			</ul>
 			<div class="-mr-4 hidden items-center gap-x-4 text-2xl lg:mr-0 lg:flex">
 				<LocaleSwitcher />

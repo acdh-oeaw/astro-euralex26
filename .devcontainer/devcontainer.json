@@ -1,14 +1,21 @@
 {
 	"name": "Astro",
 	"image": "ghcr.io/acdh-oeaw/devcontainer-frontend:24",
+	"features": {
+		"ghcr.io/devcontainers/features/node:2": {
+			"version": "26",
+			"pnpmVersion": "12.23.0",
+			"installYarnUsingApt": true
+		}
+	},
+	"forwardPorts": [3000],
 	"customizations": {
 		"vscode": {
 			"extensions": [
 				"astro-build.astro-vscode",
 				"bradlc.vscode-tailwindcss",
-				"dbaeumer.vscode-eslint",
+				"oxc.oxc-vscode",
 				"editorconfig.editorconfig",
-				"esbenp.prettier-vscode",
 				"mikestead.dotenv",
 				"ms-playwright.playwright",
 				"stylelint.vscode-stylelint",

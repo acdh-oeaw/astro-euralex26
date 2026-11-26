@@ -9,7 +9,6 @@ import { createMdxConfig } from "@/config/mdx.config";
 const cache = new Map<Locale, FormatAwareProcessors>();
 
 export async function createMdxProcessor(locale: Locale) {
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 	if (cache.has(locale)) return cache.get(locale)!;
 
 	const config = await createMdxConfig(locale);

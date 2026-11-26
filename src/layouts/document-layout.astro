@@ -1,12 +1,12 @@
 ---
-import "tailwindcss/tailwind.css";
+import "@/styles/tailwind.css";
 import "@fontsource-variable/inter/standard.css";
 import "@fontsource-variable/inter/standard-italic.css";
 import "@fontsource/red-hat-display/latin.css";
 import "@/styles/index.css";
 
 import inter from "@fontsource-variable/inter/files/inter-latin-standard-normal.woff2?url";
-import { ViewTransitions } from "astro:transitions";
+import { ClientRouter } from "astro:transitions";
 import type { WebSite, WithContext } from "schema-dts";
 
 import Analytics from "@/components/analytics.astro";
@@ -64,17 +64,15 @@ const googleSiteVerification = env.PUBLIC_GOOGLE_SITE_VERIFICATION;
 		<link rel="canonical" href={canonicalUrl} />
 		<link rel="manifest" href={manifestUrl} />
 
-		{
-			locales.map((locale) => {
-				return (
-					<link
-						rel="alternate"
-						href={new URL(withBasePath(`/${locale}${pathname}`), Astro.site)}
-						hreflang={locale}
-					/>
-				);
-			})
-		}
+		{locales.map((locale) => {
+			return (
+				<link
+					rel="alternate"
+					href={new URL(withBasePath(`/${locale}${pathname}`), Astro.site)}
+					hreflang={locale}
+				/>
+			);
+		})}
 		<link
 			rel="alternate"
 			href={new URL(withBasePath(`/${defaultLocale}${pathname}`), Astro.site)}
@@ -110,21 +108,18 @@ const googleSiteVerification = env.PUBLIC_GOOGLE_SITE_VERIFICATION;
 
 		<link rel="preload" as="font" type="font/woff2" href={inter} crossorigin />
 
-		<ViewTransitions />
+		<ClientRouter />
 
 		<script
 			is:inline
 			set:html={JSON.stringify(jsonLd, safeJsonLdReplacer)}
 			type="application/ld+json"
 		/>
-
 		{matomoBaseUrl && matomoId ? <Analytics baseUrl={matomoBaseUrl} id={matomoId} /> : null}
 
-		{
-			googleSiteVerification != null ? (
-				<meta name="google-site-verification" content={googleSiteVerification} />
-			) : null
-		}
+		{googleSiteVerification != null ? (
+			<meta name="google-site-verification" content={googleSiteVerification} />
+		) : null}
 	</head>
 
 	<body>

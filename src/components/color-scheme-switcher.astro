@@ -17,11 +17,9 @@ const colorSchemes = {
 	<label>
 		<span class="sr-only">{label}</span>
 		<select class="bg-bg text-fg" data-color-scheme-switcher>
-			{
-				Object.entries(colorSchemes).map(([value, label]) => {
-					return <option value={value}>{label}</option>;
-				})
-			}
+			{Object.entries(colorSchemes).map(([value, label]) => {
+				return <option value={value}>{label}</option>;
+			})}
 		</select>
 	</label>
 </color-scheme-switcher>

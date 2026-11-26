@@ -1,10 +1,10 @@
 ---
 import { Image } from "astro:assets";
 import { Icon } from "astro-icon/components";
-import acdhlogo from "public/acdh_logo_with_text_color.png";
-import logoLight from "public/EURALEX_Logo_2026_openbook_nightlight_blackfont.png";
-import euralexlogo from "public/EURALEX_logo_original.jpg";
-import oeawlogo from "public/oeaw_short.svg";
+import acdhlogo from "~/public/acdh_logo_with_text_color.png";
+import logoLight from "~/public/EURALEX_Logo_2026_openbook_nightlight_blackfont.png";
+import euralexlogo from "~/public/EURALEX_logo_original.jpg";
+import oeawlogo from "~/public/oeaw_short.svg";
 
 import Link from "@/components/link.astro";
 import type { Locale } from "@/config/i18n.config";
@@ -83,9 +83,7 @@ const imprint = t("WebsiteFooter.links.imprint");
 							</dd>
 						</div>
 						<div class="inline-flex items-center gap-x-2">
-							<div
-								class="inline-block rounded-full bg-east-bay-600 px-4 py-2 text-center text-sm text-white transition"
-							>
+							<div class="inline-block rounded-full bg-east-bay-600 px-4 py-2 text-center text-sm text-white transition">
 								Please use the Hashtag #EURALEX2026 in your posts!
 							</div>
 						</div>

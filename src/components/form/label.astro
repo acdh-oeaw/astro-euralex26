@@ -9,4 +9,7 @@ interface Props {
 const { id, required } = Astro.props;
 ---
 
-<div class="font-medium" id={id}><slot /><RequiredIndicator required={required} /></div>
+<div class="font-medium" id={id}>
+	<slot />
+	<RequiredIndicator required={required} />
+</div>

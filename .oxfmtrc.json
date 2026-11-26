@@ -1,0 +1,10 @@
+{
+	"$schema": "./node_modules/oxfmt/configuration_schema.json",
+	"printWidth": 100,
+	"proseWrap": "always",
+	"useTabs": true,
+	"sortPackageJson": false,
+	"astro": {},
+	"associations": [{ "files": ["*.astro"], "language": "astro" }],
+	"ignorePatterns": ["pnpm-lock.yaml", "content/**", "public/**", "e2e/snapshots/**"]
+}

@@ -14,56 +14,27 @@ on:
       - main
 
 jobs:
-  changes:
-    name: Check changed files
-    runs-on: ubuntu-24.04
-
-    outputs:
-      src: ${{ steps.filter.outputs.src }}
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v7
-
-      - uses: dorny/paths-filter@v4
-        id: filter
-        with:
-          filters: |
-            src:
-              - '!(content|public)/**'
-
   validate:
     name: Validate
-    needs: [changes]
-    if: ${{ needs.changes.outputs.src == 'true' }}
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-24.04
     timeout-minutes: 60
-
-    strategy:
-      fail-fast: true
-      matrix:
-        node-version: [26.x]
-        os: [ubuntu-24.04]
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v6
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v7
+      - name: Set up pnpm and Node.js
+        uses: pnpm/setup@v3
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: "pnpm"
+          cache: true
+          install: false
 
       - name: Cache astro build artefacts
         uses: actions/cache@v6
         with:
           path: node_modules/.astro/
-          key: ${{ runner.os }}-astro-${{ matrix.node-version }}-${{ github.run_id }}
-          restore-keys: ${{ runner.os }}-astro-${{ matrix.node-version }}
+          key: ${{ runner.os }}-astro-26-${{ github.run_id }}
+          restore-keys: ${{ runner.os }}-astro-26
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -90,7 +61,7 @@ jobs:
         id: cache-playwright-browsers
         with:
           path: "~/.cache/ms-playwright"
-          key: "${{ matrix.os }}-playwright-browsers-${{ env.PLAYWRIGHT_VERSION }}"
+          key: "${{ runner.os }}-playwright-browsers-${{ env.PLAYWRIGHT_VERSION }}"
 
       - name: Install playwright browsers
         if: steps.cache-playwright-browsers.outputs.cache-hit != 'true'

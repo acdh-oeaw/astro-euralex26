@@ -3,73 +3,42 @@
 # using alpine base image to avoid `sharp` memory leaks.
 # @see https://sharp.pixelplumbing.com/install#linux-memory-allocator
 
-# base
-FROM node:26-alpine AS base
+# build
+FROM node:26-alpine AS build
 
-RUN npm install --global corepack@0.36.0 && corepack enable
+ARG PNPM_VERSION=12.23.0
+RUN npm install --global "pnpm@${PNPM_VERSION}"
 
 RUN mkdir /app && chown -R node:node /app
 WORKDIR /app
 
 USER node
 
-COPY --chown=node:node .npmrc package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY --chown=node:node package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
-RUN pnpm fetch --prod
-RUN pnpm install --frozen-lockfile --ignore-scripts --prod
-
-# build
-FROM base as build
-
-RUN pnpm fetch --dev
+RUN pnpm fetch
+RUN CI=true pnpm install --frozen-lockfile --offline
 
 COPY --chown=node:node ./ ./
-
-# astro assets cache
-COPY --chown=node:node ./node_modules/.astro ./node_modules/.astro
 
 ARG PUBLIC_APP_BASE_PATH
 ARG PUBLIC_APP_BASE_URL
 ARG PUBLIC_BOTS
 ARG PUBLIC_GOOGLE_SITE_VERIFICATION
-ARG PUBLIC_KEYSTATIC_GITHUB_APP_SLUG
-ARG PUBLIC_KEYSTATIC_GITHUB_REPO_NAME
-ARG PUBLIC_KEYSTATIC_GITHUB_REPO_OWNER
-ARG PUBLIC_KEYSTATIC_MODE
 ARG PUBLIC_MATOMO_BASE_URL
 ARG PUBLIC_MATOMO_ID
 ARG PUBLIC_REDMINE_ID
 
-# disable validation for runtime environment variables
-ENV ENV_VALIDATION=public
-
-RUN pnpm install --frozen-lockfile
-
 ENV NODE_ENV=production
 
-RUN --mount=type=secret,id=KEYSTATIC_GITHUB_CLIENT_ID,uid=1000 \
-		--mount=type=secret,id=KEYSTATIC_GITHUB_CLIENT_SECRET,uid=1000 \
-		--mount=type=secret,id=KEYSTATIC_SECRET,uid=1000 \
-			KEYSTATIC_GITHUB_CLIENT_ID=$(cat /run/secrets/KEYSTATIC_GITHUB_CLIENT_ID) \
-			KEYSTATIC_GITHUB_CLIENT_SECRET=$(cat /run/secrets/KEYSTATIC_GITHUB_CLIENT_SECRET) \
-			KEYSTATIC_SECRET=$(cat /run/secrets/KEYSTATIC_SECRET) \
-		pnpm run build
+RUN pnpm run build
 
 # serve
-FROM node:26-alpine AS serve
+FROM caddy:2-alpine AS serve
 
-RUN mkdir /app && chown -R node:node /app
-WORKDIR /app
-
-USER node
-
-COPY --from=base --chown=node:node /app/node_modules ./node_modules
-COPY --from=build --chown=node:node /app/dist ./
-
-ENV NODE_ENV=production
-ENV HOST=0.0.0.0
-ENV PORT=3000
+ARG PUBLIC_APP_BASE_PATH
+COPY Caddyfile /etc/caddy/Caddyfile
+COPY --from=build /app/dist /srv/site${PUBLIC_APP_BASE_PATH}/
+COPY --from=build /app/dist/404.html /srv/errors/404.html
 
 EXPOSE 3000
-
-CMD [ "node", "./server/entry.mjs" ]

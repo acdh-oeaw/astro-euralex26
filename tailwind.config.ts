@@ -9,9 +9,6 @@ const config: Config = {
 		"./src/@(components|layouts|pages)/**/*.@(astro|css|ts|tsx)",
 		"./src/styles/**/*.css",
 	],
-	corePlugins: {
-		container: false,
-	},
 	darkMode: [
 		"variant",
 		[
@@ -94,7 +91,7 @@ const config: Config = {
 				body: "var(--font-body, ui-sans-serif), system-ui, sans-serif",
 				heading: "var(--font-heading, var(--font-body, ui-sans-serif)), system-ui, sans-serif",
 			},
-			typography(_theme: (key: string) => unknown) {
+			typography() {
 				return {
 					DEFAULT: {
 						css: {

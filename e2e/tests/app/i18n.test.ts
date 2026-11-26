@@ -3,36 +3,19 @@ import { createUrl } from "@acdh-oeaw/lib";
 import { defaultLocale, locales } from "@/config/i18n.config";
 import { expect, test } from "~/e2e/lib/test";
 
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const baseUrl = process.env.PUBLIC_APP_BASE_URL!;
 
 test.describe("i18n", () => {
-	test.describe("should redirect root route to preferred locale", () => {
-		test.use({ locale: "en" });
+	for (const locale of ["en", "de", "fr"]) {
+		test.describe(`browser locale ${locale}`, () => {
+			test.use({ locale });
 
-		test("with default locale", async ({ page }) => {
-			await page.goto("/");
-			await expect(page).toHaveURL("/en/");
+			test("redirects the root to the default locale", async ({ page }) => {
+				await page.goto("/");
+				await expect(page).toHaveURL(`/${defaultLocale}/`);
+			});
 		});
-	});
-
-	test.describe("should redirect root route to preferred locale", () => {
-		test.use({ locale: "de" });
-
-		test("with supported locale", async ({ page }) => {
-			await page.goto("/");
-			await expect(page).toHaveURL("/de/");
-		});
-	});
-
-	test.describe("should redirect root route to preferred locale", () => {
-		test.use({ locale: "fr" });
-
-		test("with unsupported locale", async ({ page }) => {
-			await page.goto("/");
-			await expect(page).toHaveURL("/en/");
-		});
-	});
+	}
 
 	test("should display not-found page for unknown locale", async ({ createI18n, page }) => {
 		const i18n = await createI18n(defaultLocale);
@@ -41,11 +24,8 @@ test.describe("i18n", () => {
 		await expect(page.getByRole("heading", { name: i18n.t("NotFoundPage.title") })).toBeVisible();
 	});
 
-	test("should display localised not-found page for unknown pathname", async ({
-		createI18n,
-		page,
-	}) => {
-		const i18n = await createI18n("de");
+	test("should display the default not-found page under a locale", async ({ createI18n, page }) => {
+		const i18n = await createI18n(defaultLocale);
 		const response = await page.goto("/de/unknown/");
 		expect(response?.status()).toBe(404);
 		await expect(page.getByRole("heading", { name: i18n.t("NotFoundPage.title") })).toBeVisible();
@@ -53,7 +33,6 @@ test.describe("i18n", () => {
 
 	test("should support switching locale", async ({ createImprintPage, createI18n, page }) => {
 		// @ts-expect-error Single locale could be configured.
-		// eslint-disable-next-line playwright/no-skipped-test, @typescript-eslint/no-unnecessary-condition
 		test.skip(locales.length === 1, "Only single locale configured.");
 
 		const { imprintPage, i18n: i18nDe } = await createImprintPage("de");

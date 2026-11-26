@@ -1,15 +1,11 @@
-import { join } from "node:path";
-
 import { defineConfig, devices } from "@playwright/test";
 import { isCI } from "ci-info";
-import { config as dotenv } from "dotenv";
-import { expand } from "dotenv-expand";
 
-for (const envFilePath of [".env.test.local", ".env.local", ".env.test", ".env"]) {
-	expand(dotenv({ path: join(process.cwd(), envFilePath) }));
-}
+import { loadEnvFiles } from "./src/lib/load-env-files";
 
-const port = 3000;
+loadEnvFiles([".env.test.local", ".env.local", ".env.test", ".env"]);
+
+const port = Number(process.env.PLAYWRIGHT_PORT ?? 3000);
 const baseUrl = `http://localhost:${String(port)}`;
 
 export default defineConfig({
@@ -69,7 +65,7 @@ export default defineConfig({
 		// },
 	],
 	webServer: {
-		command: "pnpm run start",
+		command: `pnpm run start --port ${String(port)}`,
 		url: baseUrl,
 		reuseExistingServer: !isCI,
 	},

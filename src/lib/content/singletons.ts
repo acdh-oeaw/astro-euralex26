@@ -3,7 +3,6 @@ import { fields, singleton } from "@keystatic/core";
 import { createAssetPaths } from "@/lib/content/create-asset-paths";
 import { createComponents, headingLevels } from "@/lib/content/create-components.tsx";
 import { createSingletonPaths } from "@/lib/content/create-paths";
-// import { createPreviewUrl } from "@/lib/content/create-preview-url";
 import { createSingleton } from "@/lib/content/create-singleton";
 import { withI18nPrefix } from "@/lib/content/i18n";
 import * as validation from "@/lib/content/validation";
@@ -15,7 +14,6 @@ const indexPage = createSingleton((locale) => {
 		label: `Home page (${locale})`,
 		path: contentPath,
 		format: { data: "json" },
-		// previewUrl: createPreviewUrl("/"),
 		entryLayout: "form",
 		schema: {
 			hero: fields.object(

@@ -1,32 +1,64 @@
 import mdx from "@astrojs/mdx";
-import node from "@astrojs/node";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
+import tailwindcss from "@tailwindcss/vite";
+import type { AstroIntegration } from "astro";
 import { defineConfig } from "astro/config";
 import icon from "astro-icon";
 import type { Writable } from "type-fest";
-import { loadEnv } from "vite";
 
 import { defaultLocale, locales } from "./src/config/i18n.config";
+import { loadEnvFiles } from "./src/lib/load-env-files";
 
-const env = loadEnv(import.meta.env.MODE, process.cwd(), "");
+const mode = import.meta.env.MODE;
+loadEnvFiles([`.env.${mode}.local`, `.env.${mode}`, ".env.local", ".env"]);
+const env = process.env;
+
+const localCms: AstroIntegration = {
+	name: "local-keystatic",
+	hooks: {
+		"astro:config:setup": ({ command, injectRoute, updateConfig }) => {
+			if (command !== "dev") return;
+
+			updateConfig({
+				security: {
+					allowedDomains: [
+						{ hostname: "localhost", protocol: "http" },
+						{ hostname: "127.0.0.1", protocol: "http" },
+					],
+				},
+				redirects: {
+					"/admin": {
+						destination: `${env.PUBLIC_APP_BASE_PATH?.replace(/\/$/, "") ?? ""}/keystatic`,
+						status: 307,
+					},
+				},
+			});
+
+			injectRoute({
+				pattern: "/keystatic/[...params]",
+				entrypoint: "./src/lib/keystatic/editor.astro",
+				prerender: false,
+			});
+			injectRoute({
+				pattern: "/api/keystatic/[...params]",
+				entrypoint: "./src/lib/keystatic/handler.ts",
+				prerender: false,
+			});
+		},
+	},
+};
 
 export default defineConfig({
-	/**
-	 * When switching to static site generation, place an empty `index.astro` file in
-	 * the `src/pages` folder, so `astro` will generate a redirect to the default locale
-	 * via `<meta http-equiv="refresh" content="0;url=/en/">`.
-	 */
-	adapter: node({
-		mode: "standalone",
-	}),
-	base: env.PUBLIC_APP_BASE_PATH,
+	base: env.PUBLIC_APP_BASE_PATH?.trim() === "" ? undefined : env.PUBLIC_APP_BASE_PATH,
+	compressHTML: "jsx",
 	i18n: {
 		defaultLocale,
 		locales: locales as Writable<typeof locales>,
 		routing: "manual",
 	},
 	integrations: [
+		localCms,
 		icon({
 			/** @see https://www.astroicon.dev/reference/configuration/#include */
 			include: {
@@ -70,18 +102,11 @@ export default defineConfig({
 			},
 		}),
 	],
-	output: "hybrid",
+	markdown: { syntaxHighlight: false },
+	output: "static",
 	prefetch: {
 		defaultStrategy: "hover",
 		prefetchAll: true,
-	},
-	redirects: {
-		"/admin": {
-			destination: env.PUBLIC_APP_BASE_PATH
-				? `${env.PUBLIC_APP_BASE_PATH.replace(/\/$/, "")}/keystatic`
-				: "/keystatic",
-			status: 307,
-		},
 	},
 	scopedStyleStrategy: "where",
 	security: {
@@ -93,4 +118,5 @@ export default defineConfig({
 		port: 3000,
 	},
 	site: env.PUBLIC_APP_BASE_URL,
+	vite: { plugins: [tailwindcss()] },
 });
