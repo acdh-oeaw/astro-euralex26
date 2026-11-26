@@ -38,7 +38,8 @@ FROM caddy:2-alpine AS serve
 
 ARG PUBLIC_APP_BASE_PATH
 COPY Caddyfile /etc/caddy/Caddyfile
-COPY --from=build /app/dist /srv/site${PUBLIC_APP_BASE_PATH}/
+# Astro publishes optimized copies of the CMS images in _astro/.
+COPY --from=build --exclude=assets/content /app/dist /srv/site${PUBLIC_APP_BASE_PATH}/
 COPY --from=build /app/dist/404.html /srv/errors/404.html
 
 EXPOSE 3000
