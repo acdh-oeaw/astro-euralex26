@@ -6,7 +6,7 @@ import MainContent from "@/components/main-content.astro";
 import { locales } from "@/config/i18n.config";
 import PageLayout from "@/layouts/page-layout.astro";
 import { createCollectionResource, createSingletonResource } from "@/lib/content/create-resource";
-import { getImageFormat, getImageImport } from "@/lib/get-image-import";
+import { getImageFormat, getImageImport, getLocalImageImport } from "@/lib/get-image-import";
 import { createI18n } from "@/lib/i18n";
 
 export function getStaticPaths() {
@@ -36,6 +36,8 @@ const { t } = await createI18n(locale);
 
 const documentTitle = t("IndexPage.meta.title");
 const { hero, content } = page.data;
+const heroImage = hero.image ? (await getLocalImageImport(hero.image)).default : undefined;
+const maxHeroWidth = 2048;
 const hasKeynotes = keynotes.length > 0;
 const hasProgramme = programme.length > 0;
 const cardImageSizes =
@@ -46,18 +48,19 @@ const { default: Content } = await page.compile(content);
 <PageLayout locale={locale} title={documentTitle}>
 	<MainContent>
 		<section class="relative place-items-center xs:py-32">
-			{hero.image ? (
+			{heroImage ? (
 				<Image
 					alt=""
 					class="absolute inset-0 -z-10 size-full object-cover brightness-75"
 					decoding="auto"
 					fetchpriority="high"
 					loading="eager"
-					src={getImageImport(hero.image)}
-					widths={[480, 800, 1120, 1440, 1920, 2560]}
+					src={heroImage}
+					width={Math.min(heroImage.width, maxHeroWidth)}
+					widths={[480, 800, 1120, 1440, 1920, maxHeroWidth]}
 					sizes="100vw"
 					format={getImageFormat(hero.image)}
-					quality={82}
+					quality={74}
 				/>
 			) : null}
 			<div class="relative grid place-items-center gap-y-10 py-20 text-white">
@@ -67,6 +70,9 @@ const { default: Content } = await page.compile(content);
 					decoding="auto"
 					fetchpriority="high"
 					src={logoLight}
+					width={720}
+					widths={[100, 200, 360, 720]}
+					sizes="25vw"
 				/>
 
 				<h1 class="leading-tight xs:text-xs xs:leading-4 md:text-2xl md:leading-8 lg:text-4xl lg:leading-10 xl:text-5xl xl:leading-none">
