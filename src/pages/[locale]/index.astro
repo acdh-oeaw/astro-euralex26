@@ -38,6 +38,8 @@ const documentTitle = t("IndexPage.meta.title");
 const { hero, content } = page.data;
 const hasKeynotes = keynotes.length > 0;
 const hasProgramme = programme.length > 0;
+const cardImageSizes =
+	"(min-width: 64rem) 16.667rem, (min-width: 48rem) calc((100vw - 14rem) / 3), (min-width: 40rem) calc((100vw - 10rem) / 2), (min-width: 30rem) calc(100vw - 6rem), calc(100vw - 4rem)";
 const { default: Content } = await page.compile(content);
 ---
 
@@ -52,7 +54,7 @@ const { default: Content } = await page.compile(content);
 					fetchpriority="high"
 					loading="eager"
 					src={getImageImport(hero.image)}
-					widths={[768, 1280, 1920, 2560]}
+					widths={[480, 800, 1120, 1440, 1920, 2560]}
 					sizes="100vw"
 					format={getImageFormat(hero.image)}
 					quality={82}
@@ -67,12 +69,14 @@ const { default: Content } = await page.compile(content);
 					src={logoLight}
 				/>
 
-				<h1 class="leading-tight xs:text-xs md:text-2xl lg:text-4xl xl:text-5xl">{hero.title}</h1>
+				<h1 class="leading-tight xs:text-xs xs:leading-4 md:text-2xl md:leading-8 lg:text-4xl lg:leading-10 xl:text-5xl xl:leading-none">
+					{hero.title}
+				</h1>
 				<p class="font-extrabold uppercase xs:text-4xl lg:text-6xl 2xl:text-7xl">{hero.lead}</p>
 				<p class="text-2xl uppercase xs:text-4xl md:text-5xl">29.9. – 3.10.2026, Vienna</p>
 			</div>
 		</section>
-		<section class="container relative mx-auto grid max-w-screen-lg gap-y-8 px-4 py-12 xs:px-8">
+		<section class="site-container relative mx-auto grid max-w-screen-lg gap-y-8 px-4 py-12 xs:px-8">
 			<div class="prose">
 				<Content />
 			</div>
@@ -84,7 +88,7 @@ const { default: Content } = await page.compile(content);
 						KEYNOTES
 					</h1>
 				</div>
-				<div class="container mx-auto max-w-screen-lg px-4 xs:px-8">
+				<div class="site-container mx-auto max-w-screen-lg px-4 xs:px-8">
 					<div class="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
 						{keynotes
 							.slice()
@@ -111,7 +115,7 @@ const { default: Content } = await page.compile(content);
 											decoding="auto"
 											loading="lazy"
 											widths={[320, 480, 640]}
-											sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
+											sizes={cardImageSizes}
 											format={getImageFormat(keynote.data.image.src)}
 											quality={80}
 										/>
@@ -131,7 +135,7 @@ const { default: Content } = await page.compile(content);
 						Programme
 					</h1>
 				</div>
-				<div class="container mx-auto max-w-screen-lg px-4 xs:px-8">
+				<div class="site-container mx-auto max-w-screen-lg px-4 xs:px-8">
 					<div class="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
 						{programme.map((day) => (
 							<a
@@ -146,7 +150,7 @@ const { default: Content } = await page.compile(content);
 										decoding="auto"
 										loading="lazy"
 										widths={[320, 480, 640]}
-										sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
+										sizes={cardImageSizes}
 										format={getImageFormat(day.data.image.src)}
 										quality={80}
 									/>

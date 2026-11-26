@@ -21,13 +21,15 @@ const navigation = await createSingletonResource("navigation", locale).read();
 ---
 
 <header class="border-b">
-	<div class="container mx-auto flex w-full justify-between px-4 py-6 text-sm font-medium">
+	<div class="site-container mx-auto flex w-full justify-between px-4 py-6 text-sm font-medium">
 		<Navigation class="flex-1 justify-between" label={t("WebsiteHeader.navigation-primary")}>
 			<NavMenuLink class="-ml-4 inline-flex shrink-0 items-center gap-x-2 text-2xl" href="/">
 				<Image
 					alt=""
 					class="block h-16 w-auto pr-10"
+					densities={[1, 2]}
 					fetchpriority="high"
+					height={64}
 					loading="eager"
 					src={logoLight}
 				/>
