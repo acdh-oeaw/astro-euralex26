@@ -1,7 +1,6 @@
 :3000 {
 	root * /srv/site
 	respond /health 200
-	encode zstd gzip
 	file_server
 
 	handle_errors 404 {
